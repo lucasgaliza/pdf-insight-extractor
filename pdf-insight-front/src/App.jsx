@@ -35,7 +35,6 @@ import {
 
 const API_URL = "https://wmi1oslfjf.execute-api.sa-east-1.amazonaws.com/default";
 
-// --- TRANSLATIONS (FULL 8 LANGUAGES) ---
 const TRANSLATIONS = {
   en: {
     title: "PDF Insight Extractor",
@@ -498,7 +497,6 @@ const UI_LANGUAGES = [
   { code: 'ja', name: '日本語' }
 ];
 
-// --- COMPLETE AI LANGUAGES DB (100+) ---
 const LANGUAGES_DB = [
   { code: 'pt-BR', name: 'Português (Brasil)' }, { code: 'pt-PT', name: 'Português (Portugal)' },
   { code: 'en', name: 'English' }, { code: 'es', name: 'Español' }, { code: 'fr', name: 'Français' },
@@ -538,7 +536,6 @@ const LANGUAGES_DB = [
   { code: 'zu', name: 'Zulu' }
 ];
 
-// --- UTILS ---
 const loadScript = (src) => {
   return new Promise((resolve) => {
     if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
@@ -562,7 +559,6 @@ const saveAs = (blob, filename) => {
   URL.revokeObjectURL(url);
 };
 
-// --- BASE UI COMPONENTS ---
 const Card = ({ children, className = "", theme }) => (
   <div className={`rounded-xl shadow-sm border overflow-visible transition-colors duration-300 ${theme === 'dark' ? 'bg-[#27272a] border-zinc-700' : 'bg-white border-slate-200'} ${className}`}>{children}</div>
 );
@@ -586,7 +582,6 @@ const FadeIn = ({ children, delay = 0 }) => {
   return <div className={`transition-opacity duration-500 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>{children}</div>;
 };
 
-// --- LANGUAGE SELECTOR ---
 const LanguageSelector = ({ value, onChange, options = LANGUAGES_DB, allowClear = true, placeholder, icon: Icon, theme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -685,20 +680,17 @@ const JsonViewer = ({ title, data, success, error, texts, theme }) => {
   );
 };
 
-// --- ROBUST CODE LEXER (VS CODE STYLE) ---
 const CodeBlock = ({ code, language, theme }) => {
-  // A proper tokenizer state machine to handle strings, comments, and keywords correctly
   const highlight = (code) => {
-    // VS Code Colors (Exact Hex)
     const c = theme === 'dark' ? {
-      keyword: '#C586C0', // Purple/Pink
+      keyword: '#C586C0',
       control: '#C586C0', 
-      function: '#DCDCAA', // Yellow
-      string: '#CE9178', // Orange
-      number: '#B5CEA8', // Light Green
-      comment: '#6A9955', // Green
+      function: '#DCDCAA',
+      string: '#CE9178',
+      number: '#B5CEA8',
+      comment: '#6A9955',
       text: '#D4D4D4',
-      type: '#4EC9B0' // Teal
+      type: '#4EC9B0'
     } : {
       keyword: '#AF00DB', 
       control: '#AF00DB',
@@ -726,7 +718,6 @@ const CodeBlock = ({ code, language, theme }) => {
     while (i < code.length) {
       const char = code[i];
 
-      // 1. Comments
       if (char === '#' || (char === '/' && code[i+1] === '/')) {
         let comment = '';
         while (i < code.length && code[i] !== '\n') {
@@ -736,7 +727,6 @@ const CodeBlock = ({ code, language, theme }) => {
         continue;
       }
 
-      // 2. Strings
       if (char === '"' || char === "'") {
         const quote = char;
         let string = quote;
@@ -753,7 +743,6 @@ const CodeBlock = ({ code, language, theme }) => {
         continue;
       }
 
-      // 3. Numbers
       if (isDigit(char)) {
         let num = '';
         while (i < code.length && (isDigit(code[i]) || code[i] === '.')) {
@@ -763,7 +752,6 @@ const CodeBlock = ({ code, language, theme }) => {
         continue;
       }
 
-      // 4. Keywords & Identifiers
       if (isAlpha(char)) {
         let word = '';
         while (i < code.length && isAlphaNum(code[i])) {
@@ -780,7 +768,6 @@ const CodeBlock = ({ code, language, theme }) => {
         continue;
       }
 
-      // 5. Default
       output += char === '<' ? '&lt;' : char === '>' ? '&gt;' : char;
       i++;
     }
@@ -963,7 +950,6 @@ const ApiDocs = ({ theme, texts }) => {
   );
 };
 
-// --- APP ---
 export default function App() {
   const [activeTab, setActiveTab] = useState('app');
   const [file, setFile] = useState(null);
@@ -976,7 +962,7 @@ export default function App() {
   const [results, setResults] = useState({});
   const [libsLoaded, setLibsLoaded] = useState(false);
   const [uiLang, setUiLang] = useState('en'); 
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1222,4 +1208,4 @@ export default function App() {
       <footer className={`border-t py-6 mt-12 ${theme === 'dark' ? 'border-zinc-800 text-zinc-500' : 'border-slate-200 text-slate-400'}`}><div className="w-full max-w-[1920px] mx-auto px-8 text-center text-sm font-medium">{texts.copyright}</div></footer>
     </div>
   );
-}
+};
