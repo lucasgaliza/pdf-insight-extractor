@@ -49,13 +49,12 @@ class TableResponse(BaseModel):
 
 class Text2AiRequest(BaseModel):
     text: str = Field(..., min_length=1, description="Text to be analyzed")
-    instruction: Optional[str] = "Summarize and extract entities."
     target_language: Optional[str] = Field(None, description="Target language for output (e.g., 'Portuguese', 'en'). Defaults to document language.")
 
 app = FastAPI(
     title="PDF Insight Extractor Pro",
     description="Professional Modular API for single-page PDF extraction and enrichment.",
-    version="1.1.3",
+    version="1.1.4",
     root_path="/default"
 )
 
@@ -213,7 +212,7 @@ def health_check():
         "service": "PDF Insight Extractor Pro",
         "model": MODEL_NAME,
         "ocr_mode": "Hybrid (Native + AI Vision)",
-        "version": "1.1.3"
+        "version": "1.1.4"
     }
 
 @app.post("/v1/page2text", status_code=200)
@@ -265,9 +264,11 @@ async def text_to_ai(request: Text2AiRequest):
     else:
         lang_directive = "Output all generated values in the same language as the input text."
 
+    fixed_instruction = "Summarize and extract entities."
+
     prompt = f"""
     Analyze the following text.
-    Instruction: {request.instruction}
+    Instruction: {fixed_instruction}
     
     {lang_directive}
     IMPORTANT: Keep all JSON keys strictly in English (e.g., "summary", "entities").
