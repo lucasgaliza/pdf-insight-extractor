@@ -30,7 +30,8 @@ import {
   Database,
   ArrowRight,
   Box,
-  Layers
+  Layers,
+  Menu
 } from 'lucide-react';
 
 const API_URL = "https://wmi1oslfjf.execute-api.sa-east-1.amazonaws.com/default";
@@ -644,7 +645,7 @@ const JsonViewer = ({ title, data, success, error, texts, theme }) => {
     navigator.clipboard.writeText(textToCopy);
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
-  
+   
   const jsonStr = success ? JSON.stringify(data, null, 2) : String(error);
   const isLarge = jsonStr.length > 300;
   const display = expanded ? jsonStr : (isLarge ? jsonStr.slice(0, 300) + '...' : jsonStr);
@@ -704,7 +705,7 @@ const CodeBlock = ({ code, language, theme }) => {
 
     let output = '';
     let i = 0;
-    
+     
     const isDigit = (char) => /[0-9]/.test(char);
     const isAlpha = (char) => /[a-zA-Z_]/.test(char);
     const isAlphaNum = (char) => /[a-zA-Z0-9_]/.test(char);
@@ -757,7 +758,7 @@ const CodeBlock = ({ code, language, theme }) => {
         while (i < code.length && isAlphaNum(code[i])) {
           word += code[i++];
         }
-        
+         
         if (KEYWORDS.has(word)) {
           output += `<span style="color:${c.keyword};font-weight:bold">${word}</span>`;
         } else if (code[i] === '(') {
@@ -874,7 +875,7 @@ const ApiDocs = ({ theme, texts }) => {
   const getSnippet = (lang, ep) => {
     const epUrl = `${API_URL}${ep}`;
     const desc = ep === '/v1/page2text' ? "Extracts text from PDF page" : ep === '/v1/text2ai' ? "Analyzes text content" : "Extracts specific data";
-    
+     
     if (lang === 'python') {
       if (ep === '/v1/text2ai') {
         return `import requests\nimport json\n\nAPI_URL = "${epUrl}"\n\n# Prepare JSON Payload\ndata = {\n    "text": "Your raw text here...",\n    "instruction": "Summarize this text"\n}\n\n# Request: ${desc}\nresponse = requests.post(API_URL, json=data)\nprint(json.dumps(response.json(), indent=2))`;
@@ -963,6 +964,7 @@ export default function App() {
   const [libsLoaded, setLibsLoaded] = useState(false);
   const [uiLang, setUiLang] = useState('en'); 
   const [theme, setTheme] = useState('dark');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile Menu State
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1058,18 +1060,18 @@ export default function App() {
     <div className={`min-h-screen font-sans flex flex-col transition-colors duration-300 ${theme === 'dark' ? 'bg-[#18181b] text-zinc-100' : 'bg-[#f3f4f6] text-slate-800'}`}>
       <header className={`sticky top-0 z-30 border-b backdrop-blur-md ${theme === 'dark' ? 'bg-[#18181b]/80 border-zinc-800' : 'bg-white/80 border-slate-200'}`}>
         <div className="w-full max-w-[1920px] mx-auto px-4 md:px-6 lg:px-8 py-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex justify-between items-center gap-4">
             <FadeIn>
               <div className="flex items-center gap-3">
                 <img src="/pdf-insight-extractor/favicon-32x32.png" alt="Logo" className="w-8 h-8 rounded-lg shadow-lg shadow-blue-500/30" />
                 <div>
                   <h1 className="text-xl md:text-2xl font-bold tracking-tight">{texts.title}</h1>
-                  <p className={`text-xs ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-500'}`}>{texts.subtitle}</p>
+                  <p className={`text-xs ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-500'} hidden sm:block`}>{texts.subtitle}</p>
                 </div>
               </div>
             </FadeIn>
-            
-            <div className="flex items-center gap-3">
+             
+            <div className="hidden md:flex items-center gap-3">
               <div className={`flex p-1 rounded-lg border ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
                 {['app', 'docs', 'swagger'].map(tab => (
                     <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === tab ? (theme === 'dark' ? 'bg-zinc-700 text-white shadow-sm' : 'bg-slate-100 text-slate-800 shadow-sm') : 'text-zinc-500 hover:text-zinc-300'}`}>
@@ -1081,7 +1083,31 @@ export default function App() {
               <div className="w-32 md:w-40"><LanguageSelector value={uiLang} onChange={setUiLang} icon={Globe} placeholder={texts.uiLang} allowClear={false} options={UI_LANGUAGES} theme={theme} /></div>
               <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className={`p-2 rounded-lg border transition-all ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-yellow-400 hover:bg-zinc-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}>{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}</button>
             </div>
+
+            <div className="md:hidden">
+                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={`p-2 rounded-lg ${theme === 'dark' ? 'text-zinc-300 hover:bg-zinc-800' : 'text-slate-600 hover:bg-slate-100'}`}>
+                    {isMobileMenuOpen ? <X /> : <Menu />}
+                </button>
+            </div>
           </div>
+
+          {isMobileMenuOpen && (
+              <div className={`md:hidden mt-4 pt-4 border-t animate-in slide-in-from-top-4 fade-in duration-200 ${theme === 'dark' ? 'border-zinc-800' : 'border-slate-200'}`}>
+                  <div className="flex flex-col gap-4">
+                      <div className={`flex flex-col p-1 rounded-lg border ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
+                        {['app', 'docs', 'swagger'].map(tab => (
+                            <button key={tab} onClick={() => { setActiveTab(tab); setIsMobileMenuOpen(false); }} className={`px-4 py-2 rounded-md text-sm font-medium transition-all text-left ${activeTab === tab ? (theme === 'dark' ? 'bg-zinc-700 text-white shadow-sm' : 'bg-slate-100 text-slate-800 shadow-sm') : 'text-zinc-500 hover:text-zinc-300'}`}>
+                                {tab === 'app' ? texts.navApp : tab === 'docs' ? texts.navDocs : texts.navSwagger}
+                            </button>
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-2">
+                           <div className="flex-1"><LanguageSelector value={uiLang} onChange={setUiLang} icon={Globe} placeholder={texts.uiLang} allowClear={false} options={UI_LANGUAGES} theme={theme} /></div>
+                           <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className={`p-2.5 rounded-lg border transition-all ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-yellow-400 hover:bg-zinc-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}>{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}</button>
+                      </div>
+                  </div>
+              </div>
+          )}
         </div>
       </header>
 
