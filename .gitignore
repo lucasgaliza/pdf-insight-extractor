@@ -1,0 +1,21 @@
+--- Node / Frontend ---
+
+node_modules/
+pdf-insight-front/node_modules/
+pdf-insight-front/dist/
+.DS_Store
+
+--- Python / Backend ---
+
+pycache/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+--- AWS / Zips ---
+
+*.zip
+package/
