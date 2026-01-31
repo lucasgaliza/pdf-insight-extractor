@@ -838,7 +838,7 @@ const ApiReference = ({ theme, texts }) => {
   const endpoints = [
     { method: "GET", path: "/", desc: "Health Check", response: "{ status: 'online', service: '...' }" },
     { method: "POST", path: "/v1/page2text", desc: texts.extractText, params: ["file (PDF)", "page_number (int)"], response: "{ text: '...', extraction_method: '...' }" },
-    { method: "POST", path: "/v1/text2ai", desc: "Text Analysis", params: ["text (string)", "instruction (string)"], response: "{ summary: '...', entities: [...] }" },
+    { method: "POST", path: "/v1/text2ai", desc: "Text Analysis", params: ["text (string)"], response: "{ summary: '...', entities: [...] }" },
     { method: "POST", path: "/v1/page2ai", desc: texts.cognitiveAnalysis, params: ["file (PDF)", "metadata_page_number (int)"], response: "{ analysis: { summary: '...', key_points: [...] } }" },
     { method: "POST", path: "/v1/page2table", desc: texts.tabularExtraction, params: ["file (PDF)", "metadata_page_number (int)"], response: "{ extraction: { table_data: [...] } }" }
   ];
