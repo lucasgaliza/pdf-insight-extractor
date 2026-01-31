@@ -879,7 +879,7 @@ const ApiDocs = ({ theme, texts }) => {
       if (ep === '/v1/text2ai') {
         return `import requests\nimport json\n\nAPI_URL = "${epUrl}"\n\n# Prepare JSON Payload\ndata = {\n    "text": "Your raw text here...",\n    "instruction": "Summarize this text"\n}\n\n# Request: ${desc}\nresponse = requests.post(API_URL, json=data)\nprint(json.dumps(response.json(), indent=2))`;
       }
-      return `import requests\nimport fitz # PyMuPDF\nimport json\n\nAPI_URL = "${epUrl}"\n\n# 1. Load PDF & Slice\ndoc = fitz.open("doc.pdf")\npdf_bytes = doc.load_page(0).get_pixmap().tobytes()\n\n# 2. Prepare Payload\nfiles = {'file': ('page.pdf', pdf_bytes, 'application/pdf')}\ndata = {'page_number': 1}\n\n# 3. Request: ${desc}\nresponse = requests.post(API_URL, files=files, data=data)\nprint(json.dumps(response.json(), indent=2))`;
+      return `import requests\nimport fitz\nimport json\n\nAPI_URL = "${epUrl}"\n\n# 1. Load PDF & Slice\ndoc = fitz.open("doc.pdf")\npdf_bytes = doc.load_page(0).get_pixmap().tobytes()\n\n# 2. Prepare Payload\nfiles = {'file': ('page.pdf', pdf_bytes, 'application/pdf')}\ndata = {'page_number': 1}\n\n# 3. Request: ${desc}\nresponse = requests.post(API_URL, files=files, data=data)\nprint(json.dumps(response.json(), indent=2))`;
     }
 
     if (lang === 'bash') {
