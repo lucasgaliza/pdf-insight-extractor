@@ -1075,7 +1075,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <FadeIn>
               <div className="flex items-center gap-3">
-                <img src="/favicon-32x32.png" alt="Logo" className="w-8 h-8 rounded-lg shadow-lg shadow-blue-500/30" />
+                <img src="/pdf-insight-extractor/favicon-32x32.png" alt="Logo" className="w-8 h-8 rounded-lg shadow-lg shadow-blue-500/30" />
                 <div>
                   <h1 className="text-xl md:text-2xl font-bold tracking-tight">{texts.title}</h1>
                   <p className={`text-xs ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-500'}`}>{texts.subtitle}</p>
