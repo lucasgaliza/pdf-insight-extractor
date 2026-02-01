@@ -626,8 +626,8 @@ const saveAs = (blob, filename) => {
   URL.revokeObjectURL(url);
 };
 
-const Card = ({ children, className = "", theme }) => (
-  <div className={`rounded-xl shadow-sm border overflow-visible transition-colors duration-300 ${theme === 'dark' ? 'bg-[#27272a] border-zinc-700' : 'bg-white border-slate-200'} ${className}`}>{children}</div>
+const Card = ({ children, className = "", theme, ...props }) => (
+  <div className={`rounded-xl shadow-sm border overflow-visible transition-colors duration-300 ${theme === 'dark' ? 'bg-[#27272a] border-zinc-700' : 'bg-white border-slate-200'} ${className}`} {...props}>{children}</div>
 );
 
 const Button = ({ children, onClick, disabled, variant = "primary", className = "", theme }) => {
@@ -711,7 +711,7 @@ const JsonViewer = ({ title, data, success, error, texts, theme }) => {
     navigator.clipboard.writeText(textToCopy);
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
-    
+   
   const jsonStr = success ? JSON.stringify(data, null, 2) : String(error);
   const isLarge = jsonStr.length > 300;
   const display = expanded ? jsonStr : (isLarge ? jsonStr.slice(0, 300) + '...' : jsonStr);
@@ -771,7 +771,7 @@ const CodeBlock = ({ code, language, theme }) => {
 
     let output = '';
     let i = 0;
-      
+     
     const isDigit = (char) => /[0-9]/.test(char);
     const isAlpha = (char) => /[a-zA-Z_]/.test(char);
     const isAlphaNum = (char) => /[a-zA-Z0-9_]/.test(char);
@@ -824,7 +824,7 @@ const CodeBlock = ({ code, language, theme }) => {
         while (i < code.length && isAlphaNum(code[i])) {
           word += code[i++];
         }
-          
+         
         if (KEYWORDS.has(word)) {
           output += `<span style="color:${c.keyword};font-weight:bold">${word}</span>`;
         } else if (code[i] === '(') {
@@ -941,7 +941,7 @@ const ApiDocs = ({ theme, texts }) => {
   const getSnippet = (lang, ep) => {
     const epUrl = `${API_URL}${ep}`;
     const desc = ep === '/v1/page2text' ? "Extracts text from PDF page" : ep === '/v1/text2ai' ? "Analyzes text content" : "Extracts specific data";
-      
+     
     if (lang === 'python') {
       if (ep === '/v1/text2ai') {
         return `import requests\nimport json\n\nAPI_URL = "${epUrl}"\n\n# Prepare JSON Payload\ndata = {\n    "text": "Your raw text here...",\n    "instruction": "Summarize this text"\n}\n\n# Request: ${desc}\nresponse = requests.post(API_URL, json=data)\nprint(json.dumps(response.json(), indent=2))`;
@@ -1031,6 +1031,7 @@ export default function App() {
   const [uiLang, setUiLang] = useState('en'); 
   const [theme, setTheme] = useState('dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
+  const [isDragging, setIsDragging] = useState(false);
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1046,8 +1047,7 @@ export default function App() {
     loadLibs();
   }, []);
 
-  const handleFileUpload = async (event) => {
-    const uploadedFile = event.target.files?.[0];
+  const loadPdfFile = async (uploadedFile) => {
     if (!uploadedFile || uploadedFile.type !== 'application/pdf') return alert("Invalid PDF");
     setIsUploading(true);
     try {
@@ -1055,6 +1055,26 @@ export default function App() {
       const doc = await window.PDFLib.PDFDocument.load(arrayBuffer);
       setFile(uploadedFile); setPdfDoc(doc); setPageCount(doc.getPageCount()); setSelectedPages(new Set()); setResults({});
     } catch { alert("Error reading PDF"); } finally { setIsUploading(false); }
+  };
+
+  const handleFileUpload = (event) => {
+    loadPdfFile(event.target.files?.[0]);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    loadPdfFile(e.dataTransfer.files?.[0]);
   };
 
   const togglePageSelection = (pageNum) => {
@@ -1090,14 +1110,14 @@ export default function App() {
             if (res.status === 429 || res.status === 503) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-            
+             
             if (endpoint === 'page2text') {
               const strData = JSON.stringify(data);
               if (strData.includes("Native (AI Limit Hit)")) {
                 throw new Error(texts.rateLimitError);
               }
             }
-            
+             
             return { success: true, data };
           } catch (err) { return { success: false, error: err.message }; }
         };
@@ -1198,12 +1218,18 @@ export default function App() {
                 <p className={`text-center max-w-3xl mx-auto text-lg leading-relaxed ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}>{texts.description}</p>
             </div>
             <FadeIn delay={100}>
-              <Card className="p-10 border-dashed border-2 hover:border-blue-500/50 transition-all mb-8" theme={theme}>
+              <Card 
+                className={`p-10 border-dashed border-2 transition-all mb-8 ${isDragging ? 'border-blue-500 bg-blue-500/10' : 'hover:border-blue-500/50'}`} 
+                theme={theme}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
                 {!file ? (
                   isUploading ? (
                     <div className="flex flex-col items-center justify-center h-40 animate-pulse"><Loader2 className="w-12 h-12 text-blue-500 animate-spin mb-4" /><p className={`text-lg font-medium ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-600'}`}>{texts.loadingPdf}</p></div>
                   ) : (
-                    <label className="flex flex-col items-center justify-center cursor-pointer h-40 group">
+                    <label className="flex flex-col items-center justify-center cursor-pointer h-40 group w-full">
                       <div className={`p-5 rounded-2xl shadow-xl mb-5 transition-transform group-hover:scale-110 ${theme === 'dark' ? 'bg-zinc-800 shadow-blue-900/10' : 'bg-white shadow-slate-200'}`}><UploadCloud className="w-10 h-10 text-blue-500" /></div>
                       <span className={`text-xl font-bold ${theme === 'dark' ? 'text-zinc-200' : 'text-slate-700'}`}>{texts.uploadTitle}</span>
                       <span className={`text-sm mt-2 ${theme === 'dark' ? 'text-zinc-500' : 'text-slate-400'}`}>{texts.uploadSubtitle}</span>
@@ -1277,13 +1303,13 @@ export default function App() {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                            
+                           
                           let baseClasses = isSelected 
                             ? "bg-blue-500 border-blue-600 text-white font-bold scale-105 z-10" 
                             : (theme === 'dark' 
                                 ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" 
                                 : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
-                            
+                           
                           let shadowClasses = "";
                           if (hasResult) {
                             if (isError) {
