@@ -711,7 +711,7 @@ const JsonViewer = ({ title, data, success, error, texts, theme }) => {
     navigator.clipboard.writeText(textToCopy);
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
-   
+    
   const jsonStr = success ? JSON.stringify(data, null, 2) : String(error);
   const isLarge = jsonStr.length > 300;
   const display = expanded ? jsonStr : (isLarge ? jsonStr.slice(0, 300) + '...' : jsonStr);
@@ -1137,7 +1137,7 @@ export default function App() {
                 </div>
               </div>
             </FadeIn>
-             
+              
             <div className="hidden md:flex items-center gap-3">
               <div className={`flex p-1 rounded-lg border ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
                 {['app', 'docs', 'swagger'].map(tab => (
@@ -1169,8 +1169,8 @@ export default function App() {
                         ))}
                       </div>
                       <div className="flex items-center gap-2">
-                           <div className="flex-1"><LanguageSelector value={uiLang} onChange={setUiLang} icon={Globe} placeholder={texts.uiLang} allowClear={false} options={UI_LANGUAGES} theme={theme} /></div>
-                           <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className={`p-2.5 rounded-lg border transition-all ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-yellow-400 hover:bg-zinc-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}>{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}</button>
+                            <div className="flex-1"><LanguageSelector value={uiLang} onChange={setUiLang} icon={Globe} placeholder={texts.uiLang} allowClear={false} options={UI_LANGUAGES} theme={theme} /></div>
+                            <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} className={`p-2.5 rounded-lg border transition-all ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-yellow-400 hover:bg-zinc-700' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'}`}>{theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}</button>
                       </div>
                   </div>
               </div>
@@ -1259,8 +1259,8 @@ export default function App() {
                       <div className="flex items-center justify-between mb-6">
                         <h3 className={`font-bold text-lg ${theme === 'dark' ? 'text-zinc-100' : 'text-slate-900'}`}>{texts.selectPages}</h3>
                         <div className="flex gap-2">
-                          <button onClick={() => setSelectedPages(new Set())} className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${theme === 'dark' ? 'text-zinc-400 hover:bg-zinc-800' : 'text-slate-500 hover:bg-slate-100'}`}>{texts.deselectAll}</button>
-                          <button onClick={toggleSelectAll} className="text-xs text-blue-500 hover:text-white font-semibold px-3 py-1.5 rounded-lg transition-colors hover:bg-blue-500 border border-blue-500/20">{texts.selectAll}</button>
+                          <button onClick={() => setSelectedPages(new Set())} disabled={isProcessing} className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''} ${theme === 'dark' ? 'text-zinc-400 hover:bg-zinc-800' : 'text-slate-500 hover:bg-slate-100'}`}>{texts.deselectAll}</button>
+                          <button onClick={toggleSelectAll} disabled={isProcessing} className={`text-xs text-blue-500 font-semibold px-3 py-1.5 rounded-lg transition-colors border border-blue-500/20 ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:text-white hover:bg-blue-500'}`}>{texts.selectAll}</button>
                         </div>
                       </div>
                       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-16 gap-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar p-1">
@@ -1268,13 +1268,13 @@ export default function App() {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                          
+                           
                           let baseClasses = isSelected 
                             ? "bg-blue-500 border-blue-600 text-white font-bold scale-105 z-10" 
                             : (theme === 'dark' 
                                 ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" 
                                 : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
-                          
+                           
                           let shadowClasses = "";
                           if (hasResult) {
                             if (isError) {
