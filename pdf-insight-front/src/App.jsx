@@ -1087,9 +1087,18 @@ export default function App() {
           if (endpoint !== 'page2text') formData.append('metadata_page_number', pageNum);
           try {
             const res = await fetch(`${API_URL.replace(/\/+$/, '')}/v1/${endpoint}`, { method: 'POST', body: formData });
-            if (res.status === 429) throw new Error(texts.rateLimitError);
+            if (res.status === 429 || res.status === 503) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return { success: true, data: await res.json() };
+            const data = await res.json();
+            
+            if (endpoint === 'page2text') {
+              const strData = JSON.stringify(data);
+              if (strData.includes("Native (AI Limit Hit)")) {
+                throw new Error(texts.rateLimitError);
+              }
+            }
+            
+            return { success: true, data };
           } catch (err) { return { success: false, error: err.message }; }
         };
 
@@ -1268,13 +1277,13 @@ export default function App() {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                           
+                            
                           let baseClasses = isSelected 
                             ? "bg-blue-500 border-blue-600 text-white font-bold scale-105 z-10" 
                             : (theme === 'dark' 
                                 ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" 
                                 : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
-                           
+                            
                           let shadowClasses = "";
                           if (hasResult) {
                             if (isError) {
