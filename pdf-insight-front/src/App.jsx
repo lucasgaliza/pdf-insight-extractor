@@ -73,6 +73,7 @@ const TRANSLATIONS = {
     uiLang: "Interface",
     loadingPdf: "Analyzing PDF Structure...",
     latency: "Latency",
+    rateLimitError: "Sandbox limit reached (Too many requests). Please try again in 1-2 hours.",
     navApp: "Extractor",
     navDocs: "Integration",
     navSwagger: "API Reference",
@@ -129,6 +130,7 @@ const TRANSLATIONS = {
     uiLang: "Oberfläche",
     loadingPdf: "PDF wird analysiert...",
     latency: "Latenz",
+    rateLimitError: "Sandbox-Limit erreicht (Zu viele Anfragen). Bitte in 1-2 Std. erneut versuchen.",
     navApp: "Extraktor",
     navDocs: "Integration",
     navSwagger: "API-Ref",
@@ -185,6 +187,7 @@ const TRANSLATIONS = {
     uiLang: "Interfaz",
     loadingPdf: "Analizando PDF...",
     latency: "Latencia",
+    rateLimitError: "Límite de Sandbox alcanzado (Demasiadas solicitudes). Reintente en 1-2 horas.",
     navApp: "Extractor",
     navDocs: "Integración",
     navSwagger: "Ref. API",
@@ -241,6 +244,7 @@ const TRANSLATIONS = {
     uiLang: "Interface",
     loadingPdf: "Analyse du PDF...",
     latency: "Latence",
+    rateLimitError: "Limite Sandbox atteinte (Trop de requêtes). Réessayez dans 1-2 heures.",
     navApp: "Extracteur",
     navDocs: "Intégration",
     navSwagger: "Réf. API",
@@ -297,6 +301,7 @@ const TRANSLATIONS = {
     uiLang: "इंटरफ़ेस",
     loadingPdf: "पीडीएफ का विश्लेषण...",
     latency: "विलंबता",
+    rateLimitError: "सैंडबॉक्स सीमा समाप्त (बहुत सारे अनुरोध)। कृपया 1-2 घंटे में पुनः प्रयास करें।",
     navApp: "एक्सट्रैक्टर",
     navDocs: "एकीकरण",
     navSwagger: "एपीआई संदर्भ",
@@ -353,6 +358,7 @@ const TRANSLATIONS = {
     uiLang: "Interfaccia",
     loadingPdf: "Analisi PDF...",
     latency: "Latenza",
+    rateLimitError: "Limite Sandbox raggiunto (Troppe richieste). Riprova tra 1-2 ore.",
     navApp: "Estrattore",
     navDocs: "Integrazione",
     navSwagger: "Rif. API",
@@ -409,6 +415,7 @@ const TRANSLATIONS = {
     uiLang: "インターフェース",
     loadingPdf: "PDF解析中...",
     latency: "レイテンシ",
+    rateLimitError: "サンドボックス制限に達しました（リクエスト過多）。1〜2時間後に再試行してください。",
     navApp: "抽出ツール",
     navDocs: "統合",
     navSwagger: "API参照",
@@ -465,6 +472,7 @@ const TRANSLATIONS = {
     uiLang: "Interface",
     loadingPdf: "Analisando estrutura do PDF...",
     latency: "Latência",
+    rateLimitError: "Limite do Sandbox atingido (Muitas requisições). Tente novamente em 1-2 horas.",
     navApp: "Extrator",
     navDocs: "Integração",
     navSwagger: "Ref. API",
@@ -521,6 +529,7 @@ const TRANSLATIONS = {
     uiLang: "界面语言",
     loadingPdf: "分析 PDF 中...",
     latency: "延迟",
+    rateLimitError: "已达沙盒限制（请求过多）。请在 1-2 小时后重试。",
     navApp: "提取器",
     navDocs: "集成",
     navSwagger: "API 参考",
@@ -551,7 +560,7 @@ const UI_LANGUAGES = [
   { code: 'hi', name: 'हिन्दी' },
   { code: 'it', name: 'Italiano' },
   { code: 'ja', name: '日本語' },
-  { code: 'pt', name: 'Português (Brasil)' },
+  { code: 'pt', name: 'Português' },
   { code: 'zh', name: '简体中文' }
 ];
 
@@ -1078,6 +1087,7 @@ export default function App() {
           if (endpoint !== 'page2text') formData.append('metadata_page_number', pageNum);
           try {
             const res = await fetch(`${API_URL.replace(/\/+$/, '')}/v1/${endpoint}`, { method: 'POST', body: formData });
+            if (res.status === 429) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             return { success: true, data: await res.json() };
           } catch (err) { return { success: false, error: err.message }; }
@@ -1253,30 +1263,32 @@ export default function App() {
                           <button onClick={toggleSelectAll} className="text-xs text-blue-500 hover:text-white font-semibold px-3 py-1.5 rounded-lg transition-colors hover:bg-blue-500 border border-blue-500/20">{texts.selectAll}</button>
                         </div>
                       </div>
-                      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-16 gap-2 max-h-60 overflow-y-auto pr-2 custom-scrollbar p-1">
+                      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-16 gap-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar p-1">
                         {Array.from({ length: pageCount }, (_, i) => i + 1).map(pageNum => {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
                           
-                          let statusClasses = isSelected 
-                            ? "bg-blue-500 border-blue-600 text-white font-bold shadow-md shadow-blue-500/30 scale-105" 
+                          let baseClasses = isSelected 
+                            ? "bg-blue-500 border-blue-600 text-white font-bold scale-105 z-10" 
                             : (theme === 'dark' 
                                 ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" 
                                 : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
                           
-                          if (hasResult && isError) {
-                            statusClasses = "bg-red-500 border-red-600 text-white";
+                          let shadowClasses = "";
+                          if (hasResult) {
+                            if (isError) {
+                              shadowClasses = "shadow-[0_0_15px_-3px_rgba(239,68,68,0.7)] border-red-500/50";
+                            } else {
+                              shadowClasses = "shadow-[0_0_15px_-3px_rgba(16,185,129,0.7)] border-emerald-500/50";
+                            }
+                          } else if (isSelected) {
+                            shadowClasses = "shadow-md shadow-blue-500/30";
                           }
 
                           return (
-                            <button key={pageNum} onClick={() => togglePageSelection(pageNum)} disabled={isProcessing} className={`relative h-10 rounded-lg border text-sm transition-all duration-200 flex items-center justify-center ${statusClasses}`}>
+                            <button key={pageNum} onClick={() => togglePageSelection(pageNum)} disabled={isProcessing} className={`relative h-10 rounded-lg border text-sm transition-all duration-200 flex items-center justify-center ${baseClasses} ${shadowClasses}`}>
                                 {pageNum}
-                                {hasResult && !isError && (
-                                    <div className="absolute -top-2 -right-2 bg-emerald-500 text-white rounded-full p-0.5 shadow-sm border border-white dark:border-zinc-900 z-10">
-                                        <Check className="w-3 h-3" strokeWidth={3} />
-                                    </div>
-                                )}
                             </button>
                           );
                         })}
