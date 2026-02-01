@@ -93,60 +93,60 @@ const TRANSLATIONS = {
       response: "Response Schema"
     }
   },
-  pt: {
-    title: "Extrator de Insights PDF",
-    subtitle: "Inteligência documental de nível empresarial via IA Serverless",
-    description: "Extraia texto, analise conteúdo e detecte tabelas de documentos PDF página por página usando modelos avançados de IA generativa. Seguro, escalável e API-first.",
-    uploadTitle: "Clique ou arraste seu PDF",
-    uploadSubtitle: "Processamento local seguro",
-    removeFile: "Remover Arquivo",
-    configTitle: "Configuração da IA",
-    extractText: "Extração de Texto",
-    extractTextDesc: "Texto puro + OCR Híbrido",
-    cognitiveAnalysis: "Análise Cognitiva",
-    cognitiveAnalysisDesc: "Resumos e Insights",
-    tabularExtraction: "Extração Tabular",
-    tabularExtractionDesc: "Tabelas para JSON",
-    outputLang: "Idioma de Saída da IA",
-    outputLangDesc: "Opcional. Padrão: Original",
-    process: "Processar",
-    processing: "Processando",
-    successTitle: "Análise Concluída",
-    analyzed: "páginas analisadas",
-    download: "Baixar Tudo (.zip)",
-    selectPages: "Selecione as Páginas",
-    selectAll: "Todas",
-    deselectAll: "Nenhuma",
-    resultsPreview: "Prévia dos Resultados",
-    items: "itens",
-    noResults: "Nenhum resultado ainda.",
-    selectPrompt: "Selecione páginas para iniciar.",
-    page: "Página",
-    copy: "Copiar",
-    viewFull: "Expandir",
-    collapse: "Retrair",
-    expand: "Expandir",
-    uiLang: "Interface",
-    loadingPdf: "Analisando estrutura do PDF...",
-    latency: "Latência",
-    navApp: "Extrator",
-    navDocs: "Integração",
-    navSwagger: "Ref. API",
-    copyright: "© 2026 Lucas Galiza da Silva. Todos os direitos reservados.",
+  de: {
+    title: "PDF Insight Extractor",
+    subtitle: "Professionelle Dokumentenintelligenz mit Serverless AI",
+    description: "Extrahieren Sie Text, analysieren Sie Inhalte und erkennen Sie Tabellen Seite für Seite mit fortschrittlicher generativer KI. Sicher, skalierbar und API-first.",
+    uploadTitle: "Klicken oder PDF ziehen",
+    uploadSubtitle: "Sichere lokale Verarbeitung",
+    removeFile: "Entfernen",
+    configTitle: "KI-Konfiguration",
+    extractText: "Textextraktion",
+    extractTextDesc: "Rohtext + Hybrid-OCR",
+    cognitiveAnalysis: "Kognitive Analyse",
+    cognitiveAnalysisDesc: "Zusammenfassungen & Insights",
+    tabularExtraction: "Tabellenextraktion",
+    tabularExtractionDesc: "Tabellen zu JSON",
+    outputLang: "KI-Ausgabesprache",
+    outputLangDesc: "Optional. Standard: Original",
+    process: "Verarbeiten",
+    processing: "Verarbeitung",
+    successTitle: "Analyse Abgeschlossen",
+    analyzed: "Seiten analysiert",
+    download: "Alles Laden (.zip)",
+    selectPages: "Seiten Auswählen",
+    selectAll: "Alle",
+    deselectAll: "Keine",
+    resultsPreview: "Vorschau",
+    items: "Elemente",
+    noResults: "Keine Ergebnisse.",
+    selectPrompt: "Seiten auswählen.",
+    page: "Seite",
+    copy: "Kopieren",
+    viewFull: "Erweitern",
+    collapse: "Einklappen",
+    expand: "Ausklappen",
+    uiLang: "Oberfläche",
+    loadingPdf: "PDF wird analysiert...",
+    latency: "Latenz",
+    navApp: "Extraktor",
+    navDocs: "Integration",
+    navSwagger: "API-Ref",
+    copyright: "© 2026 Lucas Galiza da Silva. Alle Rechte vorbehalten.",
     docs: {
-      title: "Guia de Integração API",
-      intro: "Integre nossa inteligência diretamente em seu pipeline. Selecione um endpoint abaixo para ver exemplos de implementação.",
-      diagramTitle: "Fluxo de Arquitetura",
-      limitsTitle: "Limites & Restrições",
-      limitsDesc: "Limites operacionais atuais para o nível de protótipo:",
-      whyPageTitle: "Por que Página por Página?",
-      whyPageDesc: "Processar granularmente permite execução paralela, mecanismos de repetição por página e evita estouro de janela de contexto do LLM em documentos grandes."
+      title: "API-Integrationsleitfaden",
+      intro: "Integrieren Sie unsere Intelligenz in Ihre Pipeline. Wählen Sie unten einen Endpunkt für Beispiele.",
+      diagramTitle: "Architekturfluss",
+      limitsTitle: "Grenzen & Einschränkungen",
+      limitsDesc: "Aktuelle Betriebsgrenzen:",
+      whyPageTitle: "Warum Seite für Seite?",
+      whyPageDesc: "Ermöglicht parallele Ausführung und vermeidet Kontextüberlauf bei großen Dokumenten."
     },
     ref: {
-      title: "Referência da API",
-      intro: "Documentação detalhada dos endpoints disponíveis.",
-      params: "Parâmetros",
-      response: "Esquema de Resposta"
+      title: "API-Referenz",
+      intro: "Detaillierte Dokumentation der verfügbaren Endpunkte.",
+      params: "Parameter",
+      response: "Antwortschema"
     }
   },
   es: {
@@ -261,60 +261,60 @@ const TRANSLATIONS = {
       response: "Schéma de Réponse"
     }
   },
-  de: {
-    title: "PDF Insight Extractor",
-    subtitle: "Professionelle Dokumentenintelligenz mit Serverless AI",
-    description: "Extrahieren Sie Text, analysieren Sie Inhalte und erkennen Sie Tabellen Seite für Seite mit fortschrittlicher generativer KI. Sicher, skalierbar und API-first.",
-    uploadTitle: "Klicken oder PDF ziehen",
-    uploadSubtitle: "Sichere lokale Verarbeitung",
-    removeFile: "Entfernen",
-    configTitle: "KI-Konfiguration",
-    extractText: "Textextraktion",
-    extractTextDesc: "Rohtext + Hybrid-OCR",
-    cognitiveAnalysis: "Kognitive Analyse",
-    cognitiveAnalysisDesc: "Zusammenfassungen & Insights",
-    tabularExtraction: "Tabellenextraktion",
-    tabularExtractionDesc: "Tabellen zu JSON",
-    outputLang: "KI-Ausgabesprache",
-    outputLangDesc: "Optional. Standard: Original",
-    process: "Verarbeiten",
-    processing: "Verarbeitung",
-    successTitle: "Analyse Abgeschlossen",
-    analyzed: "Seiten analysiert",
-    download: "Alles Laden (.zip)",
-    selectPages: "Seiten Auswählen",
-    selectAll: "Alle",
-    deselectAll: "Keine",
-    resultsPreview: "Vorschau",
-    items: "Elemente",
-    noResults: "Keine Ergebnisse.",
-    selectPrompt: "Seiten auswählen.",
-    page: "Seite",
-    copy: "Kopieren",
-    viewFull: "Erweitern",
-    collapse: "Einklappen",
-    expand: "Ausklappen",
-    uiLang: "Oberfläche",
-    loadingPdf: "PDF wird analysiert...",
-    latency: "Latenz",
-    navApp: "Extraktor",
-    navDocs: "Integration",
-    navSwagger: "API-Ref",
-    copyright: "© 2026 Lucas Galiza da Silva. Alle Rechte vorbehalten.",
+  hi: {
+    title: "PDF इनसाइट एक्सट्रैक्टर",
+    subtitle: "सर्वरलेस एआई द्वारा संचालित एंटरप्राइज-ग्रेड दस्तावेज़ खुफिया",
+    description: "उन्नत जेनरेटिव एआई मॉडल का उपयोग करके पृष्ठ-दर-पृष्ठ पीडीएफ दस्तावेजों से टेक्स्ट निकालें, सामग्री का विश्लेषण करें और तालिकाओं का पता लगाएं। सुरक्षित, स्केलेबल और एपीआई-फर्स्ट।",
+    uploadTitle: "अपलोड करने के लिए क्लिक करें या पीडीएफ खींचें",
+    uploadSubtitle: "सुरक्षित स्थानीय प्रसंस्करण",
+    removeFile: "फ़ाइल हटाएँ",
+    configTitle: "एआई कॉन्फ़िगरेशन",
+    extractText: "टेक्स्ट निष्कर्षण",
+    extractTextDesc: "कच्चा पाठ + हाइब्रिड ओसीआर",
+    cognitiveAnalysis: "संज्ञानात्मक विश्लेषण",
+    cognitiveAnalysisDesc: "सारांश और अंतर्दृष्टि",
+    tabularExtraction: "तालिकीय निष्कर्षण",
+    tabularExtractionDesc: "JSON के लिए तालिकाएँ",
+    outputLang: "एआई आउटपुट भाषा",
+    outputLangDesc: "वैकल्पिक। डिफ़ॉल्ट: मूल",
+    process: "प्रक्रिया",
+    processing: "प्रोसेसिंग",
+    successTitle: "विश्लेषण पूर्ण",
+    analyzed: "पृष्ठों का विश्लेषण किया गया",
+    download: "सभी डाउनलोड करें (.zip)",
+    selectPages: "पृष्ठों का चयन करें",
+    selectAll: "सभी",
+    deselectAll: "कोई नहीं",
+    resultsPreview: "परिणाम पूर्वावलोकन",
+    items: "आइटम",
+    noResults: "अभी तक कोई परिणाम नहीं।",
+    selectPrompt: "शुरू करने के लिए पृष्ठ चुनें।",
+    page: "पृष्ठ",
+    copy: "कॉपी",
+    viewFull: "विस्तार",
+    collapse: "संकुचित करें",
+    expand: "विस्तार",
+    uiLang: "इंटरफ़ेस",
+    loadingPdf: "पीडीएफ का विश्लेषण...",
+    latency: "विलंबता",
+    navApp: "एक्सट्रैक्टर",
+    navDocs: "एकीकरण",
+    navSwagger: "एपीआई संदर्भ",
+    copyright: "© 2026 Lucas Galiza da Silva. सर्वाधिकार सुरक्षित।",
     docs: {
-      title: "API-Integrationsleitfaden",
-      intro: "Integrieren Sie unsere Intelligenz in Ihre Pipeline. Wählen Sie unten einen Endpunkt für Beispiele.",
-      diagramTitle: "Architekturfluss",
-      limitsTitle: "Grenzen & Einschränkungen",
-      limitsDesc: "Aktuelle Betriebsgrenzen:",
-      whyPageTitle: "Warum Seite für Seite?",
-      whyPageDesc: "Ermöglicht parallele Ausführung und vermeidet Kontextüberlauf bei großen Dokumenten."
+      title: "एपीआई एकीकरण गाइड",
+      intro: "हमारी बुद्धिमत्ता को सीधे अपनी पाइपलाइन में एकीकृत करें। उदाहरण देखने के लिए नीचे एक एंडपॉइंट चुनें।",
+      diagramTitle: "आर्किटेक्चर फ्लो",
+      limitsTitle: "सीमाएँ और बाधाएँ",
+      limitsDesc: "वर्तमान परिचालन सीमाएँ:",
+      whyPageTitle: "पृष्ठ-दर-पृष्ठ क्यों?",
+      whyPageDesc: "दानेदार प्रसंस्करण समानांतर निष्पादन, प्रति पृष्ठ पुन: प्रयास तंत्र की अनुमति देता है, और बड़े दस्तावेजों पर एलएलएम संदर्भ विंडो अतिप्रवाह को रोकता है।"
     },
     ref: {
-      title: "API-Referenz",
-      intro: "Detaillierte Dokumentation der verfügbaren Endpunkte.",
-      params: "Parameter",
-      response: "Antwortschema"
+      title: "एपीआई संदर्भ",
+      intro: "उपलब्ध एंडपॉइंट्स का विस्तृत दस्तावेज़ीकरण।",
+      params: "पैरामीटर",
+      response: "प्रतिक्रिया स्कीमा"
     }
   },
   it: {
@@ -373,62 +373,6 @@ const TRANSLATIONS = {
       response: "Schema Risposta"
     }
   },
-  zh: {
-    title: "PDF 洞察提取器",
-    subtitle: "由无服务器 AI 驱动的企业级文档智能",
-    description: "使用先进的生成式 AI 模型逐页提取文本、分析内容并检测 PDF 文档中的表格。安全、可扩展且 API 优先。",
-    uploadTitle: "点击或拖拽上传 PDF",
-    uploadSubtitle: "安全本地处理",
-    removeFile: "移除文件",
-    configTitle: "AI 配置",
-    extractText: "文本提取",
-    extractTextDesc: "纯文本 + 混合 OCR",
-    cognitiveAnalysis: "认知分析",
-    cognitiveAnalysisDesc: "摘要与洞察",
-    tabularExtraction: "表格提取",
-    tabularExtractionDesc: "表格转 JSON",
-    outputLang: "AI 输出语言",
-    outputLangDesc: "可选。默认：原始",
-    process: "处理",
-    processing: "处理中",
-    successTitle: "分析完成",
-    analyzed: "页已分析",
-    download: "下载全部 (.zip)",
-    selectPages: "选择页面",
-    selectAll: "全选",
-    deselectAll: "取消",
-    resultsPreview: "结果预览",
-    items: "项",
-    noResults: "暂无结果。",
-    selectPrompt: "请选择页面。",
-    page: "页",
-    copy: "复制",
-    viewFull: "展开",
-    collapse: "收起",
-    expand: "展开",
-    uiLang: "界面语言",
-    loadingPdf: "分析 PDF 中...",
-    latency: "延迟",
-    navApp: "提取器",
-    navDocs: "集成",
-    navSwagger: "API 参考",
-    copyright: "© 2026 Lucas Galiza da Silva. 版权所有。",
-    docs: {
-      title: "API 集成指南",
-      intro: "将我们的智能集成到您的管道中。选择下面的端点以查看实现示例。",
-      diagramTitle: "架构流程",
-      limitsTitle: "速率限制与约束",
-      limitsDesc: "当前操作限制：",
-      whyPageTitle: "为什么逐页处理？",
-      whyPageDesc: "允许并行执行，逐页重试机制，并防止大型文档上的 LLM 上下文窗口溢出。"
-    },
-    ref: {
-      title: "API 参考",
-      intro: "可用端点的详细文档。",
-      params: "参数",
-      response: "响应架构"
-    }
-  },
   ja: {
     title: "PDFインサイト抽出",
     subtitle: "サーバーレスAIによるエンタープライズグレードの文書インテリジェンス",
@@ -484,18 +428,131 @@ const TRANSLATIONS = {
       params: "パラメータ",
       response: "レスポンススキーマ"
     }
+  },
+  pt: {
+    title: "Extrator de Insights PDF",
+    subtitle: "Inteligência documental de nível empresarial via IA Serverless",
+    description: "Extraia texto, analise conteúdo e detecte tabelas de documentos PDF página por página usando modelos avançados de IA generativa. Seguro, escalável e API-first.",
+    uploadTitle: "Clique ou arraste seu PDF",
+    uploadSubtitle: "Processamento local seguro",
+    removeFile: "Remover Arquivo",
+    configTitle: "Configuração da IA",
+    extractText: "Extração de Texto",
+    extractTextDesc: "Texto puro + OCR Híbrido",
+    cognitiveAnalysis: "Análise Cognitiva",
+    cognitiveAnalysisDesc: "Resumos e Insights",
+    tabularExtraction: "Extração Tabular",
+    tabularExtractionDesc: "Tabelas para JSON",
+    outputLang: "Idioma de Saída da IA",
+    outputLangDesc: "Opcional. Padrão: Original",
+    process: "Processar",
+    processing: "Processando",
+    successTitle: "Análise Concluída",
+    analyzed: "páginas analisadas",
+    download: "Baixar Tudo (.zip)",
+    selectPages: "Selecione as Páginas",
+    selectAll: "Todas",
+    deselectAll: "Nenhuma",
+    resultsPreview: "Prévia dos Resultados",
+    items: "itens",
+    noResults: "Nenhum resultado ainda.",
+    selectPrompt: "Selecione páginas para iniciar.",
+    page: "Página",
+    copy: "Copiar",
+    viewFull: "Expandir",
+    collapse: "Retrair",
+    expand: "Expandir",
+    uiLang: "Interface",
+    loadingPdf: "Analisando estrutura do PDF...",
+    latency: "Latência",
+    navApp: "Extrator",
+    navDocs: "Integração",
+    navSwagger: "Ref. API",
+    copyright: "© 2026 Lucas Galiza da Silva. Todos os direitos reservados.",
+    docs: {
+      title: "Guia de Integração API",
+      intro: "Integre nossa inteligência diretamente em seu pipeline. Selecione um endpoint abaixo para ver exemplos de implementação.",
+      diagramTitle: "Fluxo de Arquitetura",
+      limitsTitle: "Limites & Restrições",
+      limitsDesc: "Limites operacionais atuais para o nível de protótipo:",
+      whyPageTitle: "Por que Página por Página?",
+      whyPageDesc: "Processar granularmente permite execução paralela, mecanismos de repetição por página e evita estouro de janela de contexto do LLM em documentos grandes."
+    },
+    ref: {
+      title: "Referência da API",
+      intro: "Documentação detalhada dos endpoints disponíveis.",
+      params: "Parâmetros",
+      response: "Esquema de Resposta"
+    }
+  },
+  zh: {
+    title: "PDF 洞察提取器",
+    subtitle: "由无服务器 AI 驱动的企业级文档智能",
+    description: "使用先进的生成式 AI 模型逐页提取文本、分析内容并检测 PDF 文档中的表格。安全、可扩展且 API 优先。",
+    uploadTitle: "点击或拖拽上传 PDF",
+    uploadSubtitle: "安全本地处理",
+    removeFile: "移除文件",
+    configTitle: "AI 配置",
+    extractText: "文本提取",
+    extractTextDesc: "纯文本 + 混合 OCR",
+    cognitiveAnalysis: "认知分析",
+    cognitiveAnalysisDesc: "摘要与洞察",
+    tabularExtraction: "表格提取",
+    tabularExtractionDesc: "表格转 JSON",
+    outputLang: "AI 输出语言",
+    outputLangDesc: "可选。默认：原始",
+    process: "处理",
+    processing: "处理中",
+    successTitle: "分析完成",
+    analyzed: "页已分析",
+    download: "下载全部 (.zip)",
+    selectPages: "选择页面",
+    selectAll: "全选",
+    deselectAll: "取消",
+    resultsPreview: "结果预览",
+    items: "项",
+    noResults: "暂无结果。",
+    selectPrompt: "请选择页面。",
+    page: "页",
+    copy: "复制",
+    viewFull: "展开",
+    collapse: "收起",
+    expand: "展开",
+    uiLang: "界面语言",
+    loadingPdf: "分析 PDF 中...",
+    latency: "延迟",
+    navApp: "提取器",
+    navDocs: "集成",
+    navSwagger: "API 参考",
+    copyright: "© 2026 Lucas Galiza da Silva. 版权所有。",
+    docs: {
+      title: "API 集成指南",
+      intro: "将我们的智能集成到您的管道中。选择下面的端点以查看实现示例。",
+      diagramTitle: "架构流程",
+      limitsTitle: "速率限制与约束",
+      limitsDesc: "当前操作限制：",
+      whyPageTitle: "为什么逐页处理？",
+      whyPageDesc: "允许并行执行，逐页重试机制，并防止大型文档上的 LLM 上下文窗口溢出。"
+    },
+    ref: {
+      title: "API 参考",
+      intro: "可用端点的详细文档。",
+      params: "参数",
+      response: "响应架构"
+    }
   }
 };
 
 const UI_LANGUAGES = [
   { code: 'en', name: 'English' },
-  { code: 'pt', name: 'Português' },
+  { code: 'de', name: 'Deutsch' },
   { code: 'es', name: 'Español' },
   { code: 'fr', name: 'Français' },
-  { code: 'de', name: 'Deutsch' },
+  { code: 'hi', name: 'हिन्दी' },
   { code: 'it', name: 'Italiano' },
-  { code: 'zh', name: '简体中文' },
-  { code: 'ja', name: '日本語' }
+  { code: 'ja', name: '日本語' },
+  { code: 'pt', name: 'Português (Brasil)' },
+  { code: 'zh', name: '简体中文' }
 ];
 
 const LANGUAGES_DB = [
@@ -705,7 +762,7 @@ const CodeBlock = ({ code, language, theme }) => {
 
     let output = '';
     let i = 0;
-     
+      
     const isDigit = (char) => /[0-9]/.test(char);
     const isAlpha = (char) => /[a-zA-Z_]/.test(char);
     const isAlphaNum = (char) => /[a-zA-Z0-9_]/.test(char);
@@ -758,7 +815,7 @@ const CodeBlock = ({ code, language, theme }) => {
         while (i < code.length && isAlphaNum(code[i])) {
           word += code[i++];
         }
-         
+          
         if (KEYWORDS.has(word)) {
           output += `<span style="color:${c.keyword};font-weight:bold">${word}</span>`;
         } else if (code[i] === '(') {
@@ -875,7 +932,7 @@ const ApiDocs = ({ theme, texts }) => {
   const getSnippet = (lang, ep) => {
     const epUrl = `${API_URL}${ep}`;
     const desc = ep === '/v1/page2text' ? "Extracts text from PDF page" : ep === '/v1/text2ai' ? "Analyzes text content" : "Extracts specific data";
-     
+      
     if (lang === 'python') {
       if (ep === '/v1/text2ai') {
         return `import requests\nimport json\n\nAPI_URL = "${epUrl}"\n\n# Prepare JSON Payload\ndata = {\n    "text": "Your raw text here...",\n    "instruction": "Summarize this text"\n}\n\n# Request: ${desc}\nresponse = requests.post(API_URL, json=data)\nprint(json.dumps(response.json(), indent=2))`;
@@ -964,7 +1021,7 @@ export default function App() {
   const [libsLoaded, setLibsLoaded] = useState(false);
   const [uiLang, setUiLang] = useState('en'); 
   const [theme, setTheme] = useState('dark');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile Menu State
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1201,9 +1258,27 @@ export default function App() {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                          let statusClasses = isSelected ? "bg-blue-500 border-blue-600 text-white font-bold shadow-md shadow-blue-500/30 scale-105" : (theme === 'dark' ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
-                          if (hasResult) statusClasses = isError ? "bg-red-500 border-red-600 text-white" : "bg-emerald-500 border-emerald-600 text-white shadow-md shadow-emerald-500/30";
-                          return <button key={pageNum} onClick={() => togglePageSelection(pageNum)} disabled={isProcessing} className={`relative h-10 rounded-lg border text-sm transition-all duration-200 flex items-center justify-center ${statusClasses}`}>{pageNum}{hasResult && !isError && <div className="absolute -top-1 -right-1 bg-white text-emerald-500 rounded-full p-0.5 shadow-sm"><Check className="w-2 h-2" strokeWidth={4} /></div>}</button>;
+                          
+                          let statusClasses = isSelected 
+                            ? "bg-blue-500 border-blue-600 text-white font-bold shadow-md shadow-blue-500/30 scale-105" 
+                            : (theme === 'dark' 
+                                ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" 
+                                : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
+                          
+                          if (hasResult && isError) {
+                            statusClasses = "bg-red-500 border-red-600 text-white";
+                          }
+
+                          return (
+                            <button key={pageNum} onClick={() => togglePageSelection(pageNum)} disabled={isProcessing} className={`relative h-10 rounded-lg border text-sm transition-all duration-200 flex items-center justify-center ${statusClasses}`}>
+                                {pageNum}
+                                {hasResult && !isError && (
+                                    <div className="absolute -top-2 -right-2 bg-emerald-500 text-white rounded-full p-0.5 shadow-sm border border-white dark:border-zinc-900 z-10">
+                                        <Check className="w-3 h-3" strokeWidth={3} />
+                                    </div>
+                                )}
+                            </button>
+                          );
                         })}
                       </div>
                     </Card>
