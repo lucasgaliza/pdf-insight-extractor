@@ -31,7 +31,10 @@ import {
   ArrowRight,
   Box,
   Layers,
-  Menu
+  Menu,
+  Eye,
+  FileJson,
+  Layout
 } from 'lucide-react';
 
 const API_URL = "https://wmi1oslfjf.execute-api.sa-east-1.amazonaws.com/default";
@@ -78,6 +81,14 @@ const TRANSLATIONS = {
     navDocs: "Integration",
     navSwagger: "API Reference",
     copyright: "© 2026 Lucas Galiza da Silva. All rights reserved.",
+    viewText: "Natural Text",
+    viewJson: "JSON View",
+    viewTable: "Table View",
+    downloadTxt: "Download .txt",
+    downloadCsv: "Download .csv",
+    downloadJson: "Download .json",
+    preview: "Preview",
+    close: "Close",
     docs: {
       title: "API Integration Guide",
       intro: "Integrate our intelligence directly into your pipeline. Select an endpoint below to see implementation examples.",
@@ -135,6 +146,14 @@ const TRANSLATIONS = {
     navDocs: "Integration",
     navSwagger: "API-Ref",
     copyright: "© 2026 Lucas Galiza da Silva. Alle Rechte vorbehalten.",
+    viewText: "Natürlicher Text",
+    viewJson: "JSON-Ansicht",
+    viewTable: "Tabellenansicht",
+    downloadTxt: ".txt Herunterladen",
+    downloadCsv: ".csv Herunterladen",
+    downloadJson: ".json Herunterladen",
+    preview: "Vorschau",
+    close: "Schließen",
     docs: {
       title: "API-Integrationsleitfaden",
       intro: "Integrieren Sie unsere Intelligenz in Ihre Pipeline. Wählen Sie unten einen Endpunkt für Beispiele.",
@@ -192,6 +211,14 @@ const TRANSLATIONS = {
     navDocs: "Integración",
     navSwagger: "Ref. API",
     copyright: "© 2026 Lucas Galiza da Silva. Todos los derechos reservados.",
+    viewText: "Texto Natural",
+    viewJson: "Vista JSON",
+    viewTable: "Vista Tabla",
+    downloadTxt: "Descargar .txt",
+    downloadCsv: "Descargar .csv",
+    downloadJson: "Descargar .json",
+    preview: "Vista Previa",
+    close: "Cerrar",
     docs: {
       title: "Guía de Integración API",
       intro: "Integre nuestra inteligencia en su pipeline. Seleccione un punto final a continuación para ver ejemplos.",
@@ -249,6 +276,14 @@ const TRANSLATIONS = {
     navDocs: "Intégration",
     navSwagger: "Réf. API",
     copyright: "© 2026 Lucas Galiza da Silva. Tous droits réservés.",
+    viewText: "Texte Naturel",
+    viewJson: "Vue JSON",
+    viewTable: "Vue Tableau",
+    downloadTxt: "Télécharger .txt",
+    downloadCsv: "Télécharger .csv",
+    downloadJson: "Télécharger .json",
+    preview: "Aperçu",
+    close: "Fermer",
     docs: {
       title: "Guide d'Intégration API",
       intro: "Intégrez notre intelligence dans votre pipeline. Sélectionnez un endpoint ci-dessous pour voir des exemples.",
@@ -306,6 +341,14 @@ const TRANSLATIONS = {
     navDocs: "एकीकरण",
     navSwagger: "एपीआई संदर्भ",
     copyright: "© 2026 Lucas Galiza da Silva. सर्वाधिकार सुरक्षित।",
+    viewText: "प्राकृतिक पाठ",
+    viewJson: "JSON दृश्य",
+    viewTable: "तालिका दृश्य",
+    downloadTxt: ".txt डाउनलोड करें",
+    downloadCsv: ".csv डाउनलोड करें",
+    downloadJson: ".json डाउनलोड करें",
+    preview: "पूर्वावलोकन",
+    close: "बंद करें",
     docs: {
       title: "एपीआई एकीकरण गाइड",
       intro: "हमारी बुद्धिमत्ता को सीधे अपनी पाइपलाइन में एकीकृत करें। उदाहरण देखने के लिए नीचे एक एंडपॉइंट चुनें।",
@@ -363,6 +406,14 @@ const TRANSLATIONS = {
     navDocs: "Integrazione",
     navSwagger: "Rif. API",
     copyright: "© 2026 Lucas Galiza da Silva. Tutti i diritti riservati.",
+    viewText: "Testo Naturale",
+    viewJson: "Vista JSON",
+    viewTable: "Vista Tabella",
+    downloadTxt: "Scarica .txt",
+    downloadCsv: "Scarica .csv",
+    downloadJson: "Scarica .json",
+    preview: "Anteprima",
+    close: "Chiudi",
     docs: {
       title: "Guida Integrazione API",
       intro: "Integra la nostra intelligenza nella tua pipeline. Seleziona un endpoint qui sotto per esempi.",
@@ -420,6 +471,14 @@ const TRANSLATIONS = {
     navDocs: "統合",
     navSwagger: "API参照",
     copyright: "© 2026 Lucas Galiza da Silva. 無断転載を禁じます。",
+    viewText: "自然なテキスト",
+    viewJson: "JSON表示",
+    viewTable: "表表示",
+    downloadTxt: ".txtをダウンロード",
+    downloadCsv: ".csvをダウンロード",
+    downloadJson: ".jsonをダウンロード",
+    preview: "プレビュー",
+    close: "閉じる",
     docs: {
       title: "API統合ガイド",
       intro: "当社のインテリジェンスをパイプラインに統合します。実装例を表示するには、以下のエンドポイントを選択してください。",
@@ -477,6 +536,14 @@ const TRANSLATIONS = {
     navDocs: "Integração",
     navSwagger: "Ref. API",
     copyright: "© 2026 Lucas Galiza da Silva. Todos os direitos reservados.",
+    viewText: "Texto Natural",
+    viewJson: "Visualizar JSON",
+    viewTable: "Visualizar Tabela",
+    downloadTxt: "Baixar .txt",
+    downloadCsv: "Baixar .csv",
+    downloadJson: "Baixar .json",
+    preview: "Visualizar",
+    close: "Fechar",
     docs: {
       title: "Guia de Integração API",
       intro: "Integre nossa inteligência diretamente em seu pipeline. Selecione um endpoint abaixo para ver exemplos de implementação.",
@@ -534,6 +601,14 @@ const TRANSLATIONS = {
     navDocs: "集成",
     navSwagger: "API 参考",
     copyright: "© 2026 Lucas Galiza da Silva. 版权所有。",
+    viewText: "自然文本",
+    viewJson: "查看 JSON",
+    viewTable: "查看表格",
+    downloadTxt: "下载 .txt",
+    downloadCsv: "下载 .csv",
+    downloadJson: "下载 .json",
+    preview: "预览",
+    close: "关闭",
     docs: {
       title: "API 集成指南",
       intro: "将我们的智能集成到您的管道中。选择下面的端点以查看实现示例。",
@@ -703,25 +778,155 @@ const LanguageSelector = ({ value, onChange, options = LANGUAGES_DB, allowClear 
   );
 };
 
-const JsonViewer = ({ title, data, success, error, texts, theme }) => {
-  const [expanded, setExpanded] = useState(false);
+const PdfPageThumbnail = ({ pdfDocument, pageNumber, scale = 0.5, onZoom, isSelected, theme }) => {
+  const canvasRef = useRef(null);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!pdfDocument || !canvasRef.current) return;
+    const renderPage = async () => {
+      try {
+        const page = await pdfDocument.getPage(pageNumber);
+        const viewport = page.getViewport({ scale });
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        await page.render({ canvasContext: context, viewport }).promise;
+        setLoaded(true);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    renderPage();
+  }, [pdfDocument, pageNumber, scale]);
+
+  return (
+    <div className={`relative group w-full aspect-[1/1.4] rounded-lg overflow-hidden border transition-all ${isSelected ? 'ring-2 ring-blue-500 border-transparent' : (theme === 'dark' ? 'border-zinc-700 bg-zinc-800' : 'border-slate-200 bg-slate-100')}`}>
+       <canvas ref={canvasRef} className="w-full h-full object-contain bg-white" />
+       {!loaded && <div className="absolute inset-0 flex items-center justify-center"><Loader2 className="animate-spin opacity-50" /></div>}
+       <div className={`absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 ${isSelected ? 'opacity-30' : ''}`}>
+          <button onClick={(e) => { e.stopPropagation(); onZoom(pageNumber); }} className="p-2 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full text-white transition-colors">
+             <Eye size={20} />
+          </button>
+       </div>
+       <div className="absolute top-2 right-2">
+         {isSelected && <div className="bg-blue-500 text-white rounded-full p-1 shadow-lg"><Check size={12} strokeWidth={3} /></div>}
+       </div>
+       <div className="absolute bottom-0 w-full text-center bg-black/60 text-white text-[10px] py-0.5 backdrop-blur-sm">
+         Page {pageNumber}
+       </div>
+    </div>
+  );
+};
+
+const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => {
+  const [viewMode, setViewMode] = useState('text'); // text, json, table
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (endpoint === 'page2table') setViewMode('table');
+  }, [endpoint]);
+
   const handleCopy = () => {
     const textToCopy = success ? JSON.stringify(data, null, 2) : String(error);
     navigator.clipboard.writeText(textToCopy);
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
-   
-  const jsonStr = success ? JSON.stringify(data, null, 2) : String(error);
-  const isLarge = jsonStr.length > 300;
-  const display = expanded ? jsonStr : (isLarge ? jsonStr.slice(0, 300) + '...' : jsonStr);
+
+  const handleDownload = (format) => {
+     let content = "";
+     let mime = "text/plain";
+     let ext = "txt";
+
+     if (format === 'json') {
+       content = JSON.stringify(data, null, 2);
+       mime = "application/json";
+       ext = "json";
+     } else if (format === 'csv' && data?.extraction?.table_data) {
+       content = data.extraction.table_data.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
+       mime = "text/csv";
+       ext = "csv";
+     } else {
+       // Natural text download
+       if (endpoint === 'page2text') content = data.text || data.content;
+       else if (endpoint === 'page2ai') {
+          const analysis = data.analysis || {};
+          content = `SUMMARY:\n${analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}`;
+       } else {
+         content = JSON.stringify(data, null, 2);
+       }
+     }
+     
+     const blob = new Blob([content], { type: mime });
+     saveAs(blob, `result_${endpoint}_${Date.now()}.${ext}`);
+  };
+  
   const latency = data && data.latency_seconds ? data.latency_seconds : (Math.random() * 1).toFixed(4);
+
+  const renderNaturalText = () => {
+    if (!success) return <span className="text-red-500 font-mono break-words">{String(error)}</span>;
+    if (endpoint === 'page2text') {
+      return <div className="whitespace-pre-wrap font-serif text-sm leading-relaxed opacity-90">{data.text || data.content}</div>;
+    }
+    if (endpoint === 'page2ai') {
+      const analysis = data.analysis || {};
+      return (
+        <div className="space-y-4 text-sm">
+           {analysis.summary && (
+             <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
+               <h4 className="font-bold text-blue-500 mb-1 uppercase text-xs tracking-wider">Summary</h4>
+               <p className="opacity-90 leading-relaxed">{analysis.summary}</p>
+             </div>
+           )}
+           {analysis.key_points && (
+             <div>
+               <h4 className="font-bold mb-2 uppercase text-xs tracking-wider opacity-60">Key Points</h4>
+               <ul className="list-disc list-inside space-y-1 opacity-90">
+                 {analysis.key_points.map((p, i) => <li key={i}>{p}</li>)}
+               </ul>
+             </div>
+           )}
+        </div>
+      );
+    }
+    if (endpoint === 'page2table') {
+       if (data.extraction?.table_data) return renderTable();
+       return <div className="text-sm opacity-60 italic">No table data detected or parsed in natural text mode. Switch to JSON.</div>;
+    }
+    return <pre className="text-xs">{JSON.stringify(data, null, 2)}</pre>;
+  };
+
+  const renderTable = () => {
+    const tableData = data?.extraction?.table_data;
+    if (!tableData || !Array.isArray(tableData)) return <div className="p-4 text-center text-sm opacity-50">No table data</div>;
+    return (
+      <div className="overflow-x-auto border rounded-lg">
+        <table className={`w-full text-sm text-left ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-600'}`}>
+          <thead className={`text-xs uppercase ${theme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-50 text-slate-700'}`}>
+             <tr>{tableData[0]?.map((head, i) => <th key={i} className="px-4 py-2 font-medium border-b border-r last:border-r-0 border-inherit whitespace-nowrap">{head}</th>)}</tr>
+          </thead>
+          <tbody>
+             {tableData.slice(1).map((row, i) => (
+               <tr key={i} className={`border-b last:border-0 border-inherit ${theme === 'dark' ? 'hover:bg-zinc-800/50' : 'hover:bg-slate-50'}`}>
+                 {row.map((cell, j) => <td key={j} className="px-4 py-2 border-r last:border-r-0 border-inherit whitespace-nowrap">{cell}</td>)}
+               </tr>
+             ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  const bgClass = theme === 'dark' ? 'bg-[#27272a] border-zinc-700' : 'bg-white border-slate-200';
+  const headerIcon = endpoint === 'page2text' ? <FileText className="w-4 h-4 text-blue-500" /> : endpoint === 'page2ai' ? <Cpu className="w-4 h-4 text-purple-500" /> : <Table className="w-4 h-4 text-emerald-500" />;
+  const headerColor = endpoint === 'page2text' ? 'text-blue-500' : endpoint === 'page2ai' ? 'text-purple-500' : 'text-emerald-500';
 
   if (!success) {
     return (
-      <div className="text-xs p-3 rounded bg-red-500/10 border border-red-500/20 h-full">
+      <div className="text-xs p-4 rounded-xl bg-red-500/10 border border-red-500/20 h-full">
         <div className="flex justify-between items-center mb-2 border-b border-red-500/20 pb-2">
-          <div className="uppercase font-bold text-red-600 flex items-center gap-2"><AlertCircle className="w-3 h-3" /> {title}</div>
+          <div className="uppercase font-bold text-red-600 flex items-center gap-2"><AlertCircle className="w-4 h-4" /> {title}</div>
         </div>
         <span className="text-red-500 font-mono break-words">{String(error)}</span>
       </div>
@@ -729,20 +934,37 @@ const JsonViewer = ({ title, data, success, error, texts, theme }) => {
   }
 
   return (
-    <div className={`text-xs rounded border flex flex-col transition-all duration-300 ${theme === 'dark' ? 'bg-zinc-900/50 border-zinc-700' : 'bg-white border-slate-200'} ${expanded ? 'h-auto shadow-md relative z-10' : 'h-full'}`}>
-      <div className={`flex justify-between items-center p-3 pb-2 border-b ${theme === 'dark' ? 'border-zinc-700' : 'border-slate-200'}`}>
-        <div className={`uppercase font-bold flex items-center gap-2 ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}><CheckCircle className="w-3 h-3 text-emerald-500" /> {title}</div>
-        <div className="flex gap-1">
-           <button onClick={handleCopy} className={`p-1 rounded ${theme === 'dark' ? 'hover:bg-zinc-700 text-zinc-400' : 'hover:bg-slate-200 text-slate-500'}`}>{copied ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}</button>
-           {isLarge && <button onClick={() => setExpanded(!expanded)} className="p-1 hover:bg-blue-500/10 rounded text-blue-500">{expanded ? <Minimize2 className="w-3 h-3" /> : <Maximize2 className="w-3 h-3" />}</button>}
-        </div>
-      </div>
-      <div className={`relative p-3 ${expanded ? '' : 'overflow-hidden'}`}>
-        <pre className={`font-mono whitespace-pre-wrap break-all ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-700'}`}>{display}</pre>
-        {!expanded && isLarge && <div className={`absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t pointer-events-none ${theme === 'dark' ? 'from-[#18181b] to-transparent' : 'from-white to-transparent'}`}></div>}
-        <div className={`mt-3 pt-2 border-t flex items-center gap-1.5 opacity-60 ${theme === 'dark' ? 'border-zinc-700 text-zinc-500' : 'border-slate-200 text-slate-400'}`}><Clock className="w-3 h-3" /> <span>{texts.latency}: {latency}s</span></div>
-      </div>
-      {!expanded && isLarge && <button onClick={() => setExpanded(true)} className="mx-3 mb-3 text-blue-500 hover:text-blue-600 font-medium text-center py-1 hover:bg-blue-500/10 rounded">{texts.viewFull}</button>}
+    <div className={`flex flex-col rounded-xl border overflow-hidden transition-all duration-300 h-full ${bgClass} shadow-sm hover:shadow-md`}>
+       <div className={`flex items-center justify-between px-4 py-3 border-b ${theme === 'dark' ? 'border-zinc-700 bg-zinc-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
+          <div className={`font-bold flex items-center gap-2 text-sm ${headerColor}`}>{headerIcon} {title}</div>
+          <div className="flex gap-1">
+             <button onClick={() => setViewMode('text')} className={`p-1.5 rounded transition-colors ${viewMode === 'text' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewText}><FileText size={14} /></button>
+             <button onClick={() => setViewMode('json')} className={`p-1.5 rounded transition-colors ${viewMode === 'json' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewJson}><FileJson size={14} /></button>
+             {endpoint === 'page2table' && <button onClick={() => setViewMode('table')} className={`p-1.5 rounded transition-colors ${viewMode === 'table' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewTable}><Layout size={14} /></button>}
+          </div>
+       </div>
+       
+       <div className="flex-1 p-4 overflow-y-auto max-h-[400px] custom-scrollbar relative">
+          {viewMode === 'text' && renderNaturalText()}
+          {viewMode === 'table' && (endpoint === 'page2table' ? renderTable() : renderNaturalText())}
+          {viewMode === 'json' && <pre className={`text-xs font-mono whitespace-pre-wrap break-all ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}>{JSON.stringify(data, null, 2)}</pre>}
+       </div>
+
+       <div className={`px-4 py-2 border-t flex items-center justify-between text-xs ${theme === 'dark' ? 'border-zinc-700 bg-zinc-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
+          <div className="flex items-center gap-1.5 opacity-60"><Clock className="w-3 h-3" /> <span>{texts.latency}: {latency}s</span></div>
+          <div className="flex items-center gap-2">
+             <button onClick={handleCopy} className={`flex items-center gap-1 hover:text-blue-500 transition-colors ${copied ? 'text-emerald-500' : ''}`}>{copied ? <Check size={12} /> : <Copy size={12} />} <span className="hidden sm:inline">{texts.copy}</span></button>
+             <div className="h-3 w-px bg-current opacity-20"></div>
+             <div className="relative group">
+                <button className="flex items-center gap-1 hover:text-blue-500 transition-colors"><Download size={12} /></button>
+                <div className={`absolute bottom-full right-0 mb-2 w-32 py-1 rounded-lg border shadow-xl hidden group-hover:block z-20 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
+                   <button onClick={() => handleDownload('txt')} className="w-full text-left px-3 py-1.5 hover:bg-blue-500/10 hover:text-blue-500">{texts.downloadTxt}</button>
+                   <button onClick={() => handleDownload('json')} className="w-full text-left px-3 py-1.5 hover:bg-blue-500/10 hover:text-blue-500">{texts.downloadJson}</button>
+                   {endpoint === 'page2table' && <button onClick={() => handleDownload('csv')} className="w-full text-left px-3 py-1.5 hover:bg-blue-500/10 hover:text-blue-500">{texts.downloadCsv}</button>}
+                </div>
+             </div>
+          </div>
+       </div>
     </div>
   );
 };
@@ -771,7 +993,7 @@ const CodeBlock = ({ code, language, theme }) => {
 
     let output = '';
     let i = 0;
-     
+      
     const isDigit = (char) => /[0-9]/.test(char);
     const isAlpha = (char) => /[a-zA-Z_]/.test(char);
     const isAlphaNum = (char) => /[a-zA-Z0-9_]/.test(char);
@@ -824,7 +1046,7 @@ const CodeBlock = ({ code, language, theme }) => {
         while (i < code.length && isAlphaNum(code[i])) {
           word += code[i++];
         }
-         
+          
         if (KEYWORDS.has(word)) {
           output += `<span style="color:${c.keyword};font-weight:bold">${word}</span>`;
         } else if (code[i] === '(') {
@@ -941,7 +1163,7 @@ const ApiDocs = ({ theme, texts }) => {
   const getSnippet = (lang, ep) => {
     const epUrl = `${API_URL}${ep}`;
     const desc = ep === '/v1/page2text' ? "Extracts text from PDF page" : ep === '/v1/text2ai' ? "Analyzes text content" : "Extracts specific data";
-     
+      
     if (lang === 'python') {
       if (ep === '/v1/text2ai') {
         return `import requests\nimport json\n\nAPI_URL = "${epUrl}"\n\n# Prepare JSON Payload\ndata = {\n    "text": "Your raw text here...",\n    "instruction": "Summarize this text"\n}\n\n# Request: ${desc}\nresponse = requests.post(API_URL, json=data)\nprint(json.dumps(response.json(), indent=2))`;
@@ -1021,6 +1243,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('app');
   const [file, setFile] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
+  const [pdfJsDoc, setPdfJsDoc] = useState(null); // For rendering UI
   const [pageCount, setPageCount] = useState(0);
   const [selectedPages, setSelectedPages] = useState(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
@@ -1032,6 +1255,7 @@ export default function App() {
   const [theme, setTheme] = useState('dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [isDragging, setIsDragging] = useState(false);
+  const [previewPage, setPreviewPage] = useState(null); // For modal
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1039,10 +1263,18 @@ export default function App() {
   useEffect(() => {
     const loadLibs = async () => {
       try {
+        // Load PDF-Lib for processing
         await loadScript("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js");
         await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");
+        // Load PDF.js for UI rendering
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+        
+        if (window.pdfjsLib) {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+        
         setLibsLoaded(true);
-      } catch (e) { setLibsLoaded(true); }
+      } catch (e) { console.error(e); setLibsLoaded(true); }
     };
     loadLibs();
   }, []);
@@ -1052,8 +1284,17 @@ export default function App() {
     setIsUploading(true);
     try {
       const arrayBuffer = await uploadedFile.arrayBuffer();
+      // Load for Processing
       const doc = await window.PDFLib.PDFDocument.load(arrayBuffer);
-      setFile(uploadedFile); setPdfDoc(doc); setPageCount(doc.getPageCount()); setSelectedPages(new Set()); setResults({});
+      // Load for Rendering
+      const jsDoc = await window.pdfjsLib.getDocument(arrayBuffer).promise;
+
+      setFile(uploadedFile); 
+      setPdfDoc(doc); 
+      setPdfJsDoc(jsDoc);
+      setPageCount(doc.getPageCount()); 
+      setSelectedPages(new Set()); 
+      setResults({});
     } catch { alert("Error reading PDF"); } finally { setIsUploading(false); }
   };
 
@@ -1110,14 +1351,14 @@ export default function App() {
             if (res.status === 429 || res.status === 503) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-             
+              
             if (endpoint === 'page2text') {
               const strData = JSON.stringify(data);
               if (strData.includes("Native (AI Limit Hit)")) {
                 throw new Error(texts.rateLimitError);
               }
             }
-             
+              
             return { success: true, data };
           } catch (err) { return { success: false, error: err.message }; }
         };
@@ -1154,6 +1395,24 @@ export default function App() {
 
   return (
     <div className={`min-h-screen font-sans flex flex-col transition-colors duration-300 ${theme === 'dark' ? 'bg-[#18181b] text-zinc-100' : 'bg-[#f3f4f6] text-slate-800'}`}>
+      
+      {/* Zoom Modal */}
+      {previewPage && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={() => setPreviewPage(null)}>
+          <div className="relative max-w-5xl w-full max-h-full overflow-auto flex flex-col items-center" onClick={e => e.stopPropagation()}>
+             <button onClick={() => setPreviewPage(null)} className="absolute top-4 right-4 z-50 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"><X size={24} /></button>
+             <div className="bg-white rounded-lg overflow-hidden shadow-2xl">
+               <PdfPageThumbnail pdfDocument={pdfJsDoc} pageNumber={previewPage} scale={2} theme={theme} isSelected={false} onZoom={() => {}} />
+             </div>
+             <div className="mt-4 flex gap-4">
+                 <Button variant={selectedPages.has(previewPage) ? "danger" : "primary"} onClick={() => { togglePageSelection(previewPage); setPreviewPage(null); }}>
+                   {selectedPages.has(previewPage) ? texts.deselectAll : texts.selectPages.replace("...", "")}
+                 </Button>
+             </div>
+          </div>
+        </div>
+      )}
+
       <header className={`sticky top-0 z-30 border-b backdrop-blur-md ${theme === 'dark' ? 'bg-[#18181b]/80 border-zinc-800' : 'bg-white/80 border-slate-200'}`}>
         <div className="w-full max-w-[1920px] mx-auto px-4 md:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center gap-4">
@@ -1248,7 +1507,7 @@ export default function App() {
                         </div>
                       </div>
                     </div>
-                    <Button variant="danger" onClick={() => { setFile(null); setResults({}); setPageCount(0); }} theme={theme} className="px-6 py-3"><Trash2 className="w-4 h-4" /> {texts.removeFile}</Button>
+                    <Button variant="danger" onClick={() => { setFile(null); setResults({}); setPageCount(0); setPdfJsDoc(null); }} theme={theme} className="px-6 py-3"><Trash2 className="w-4 h-4" /> {texts.removeFile}</Button>
                   </div>
                 )}
               </Card>
@@ -1298,38 +1557,30 @@ export default function App() {
                           <button onClick={toggleSelectAll} disabled={isProcessing} className={`text-xs text-blue-500 font-semibold px-3 py-1.5 rounded-lg transition-colors border border-blue-500/20 ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:text-white hover:bg-blue-500'}`}>{texts.selectAll}</button>
                         </div>
                       </div>
-                      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-16 gap-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar p-1">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar p-1">
                         {Array.from({ length: pageCount }, (_, i) => i + 1).map(pageNum => {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                           
-                          let baseClasses = isSelected 
-                            ? "bg-blue-500 border-blue-600 text-white font-bold scale-105 z-10" 
-                            : (theme === 'dark' 
-                                ? "bg-zinc-800 border-zinc-700 text-zinc-400 hover:border-blue-500 hover:text-blue-400" 
-                                : "bg-white border-slate-200 text-slate-500 hover:border-blue-300 hover:text-blue-500");
-                           
-                          let shadowClasses = "";
-                          if (hasResult) {
-                            if (isError) {
-                              shadowClasses = "shadow-[0_0_15px_-3px_rgba(239,68,68,0.7)] border-red-500/50";
-                            } else {
-                              shadowClasses = "shadow-[0_0_15px_-3px_rgba(16,185,129,0.7)] border-emerald-500/50";
-                            }
-                          } else if (isSelected) {
-                            shadowClasses = "shadow-md shadow-blue-500/30";
-                          }
-
+                            
                           return (
-                            <button key={pageNum} onClick={() => togglePageSelection(pageNum)} disabled={isProcessing} className={`relative h-10 rounded-lg border text-sm transition-all duration-200 flex items-center justify-center ${baseClasses} ${shadowClasses}`}>
-                                {pageNum}
-                            </button>
+                            <div key={pageNum} onClick={() => !isProcessing && togglePageSelection(pageNum)} className={`cursor-pointer transition-transform ${isSelected ? 'scale-105 z-10' : 'hover:scale-105'}`}>
+                               <PdfPageThumbnail 
+                                 pdfDocument={pdfJsDoc} 
+                                 pageNumber={pageNum} 
+                                 isSelected={isSelected} 
+                                 onZoom={setPreviewPage}
+                                 theme={theme}
+                               />
+                               {hasResult && (
+                                 <div className={`mt-2 h-1.5 w-full rounded-full ${isError ? 'bg-red-500' : 'bg-emerald-500'} shadow-lg shadow-${isError ? 'red' : 'emerald'}-500/50`}></div>
+                               )}
+                            </div>
                           );
                         })}
                       </div>
                     </Card>
-                    <div className="space-y-6">
+                    <div className="space-y-6 mt-8">
                       <h3 className={`font-bold text-xl flex items-center gap-3 ${theme === 'dark' ? 'text-zinc-100' : 'text-slate-900'}`}>{texts.resultsPreview}<span className={`text-sm font-normal px-2.5 py-0.5 rounded-full ${theme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-500'}`}>{Object.keys(results).length} {texts.items}</span></h3>
                       {Object.keys(results).length === 0 ? (
                         <div className={`text-center py-20 border-2 border-dashed rounded-2xl ${theme === 'dark' ? 'border-zinc-800 text-zinc-600' : 'bg-white border-slate-200 text-slate-400'}`}><div className="flex justify-center mb-4"><Cpu className={`w-12 h-12 opacity-50 ${theme === 'dark' ? 'text-zinc-700' : 'text-slate-300'}`} /></div><p className="text-lg font-medium">{texts.noResults}</p><p className="text-sm opacity-60 mt-1">{texts.selectPrompt}</p></div>
@@ -1339,7 +1590,9 @@ export default function App() {
                             <Card key={pageNum} className="p-0 overflow-visible border-none shadow-none bg-transparent" theme={theme}>
                               <div className={`flex items-center gap-3 mb-4 pl-1`}><div className={`font-bold px-3 py-1 rounded text-sm shadow-sm ${theme === 'dark' ? 'bg-zinc-800 text-zinc-100' : 'bg-slate-800 text-white'}`}>{texts.page} {pageNum}</div><div className={`h-px flex-1 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}></div></div>
                               <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
-                                {Object.entries(endpoints).map(([key, val]) => ( <JsonViewer key={key} title={key.toUpperCase()} data={val.data} success={val.success} error={val.error} texts={texts} theme={theme} /> ))}
+                                {Object.entries(endpoints).map(([key, val]) => ( 
+                                  <ResultCard key={key} title={key.toUpperCase().replace('PAGE2', '')} endpoint={key} data={val.data} success={val.success} error={val.error} texts={texts} theme={theme} /> 
+                                ))}
                               </div>
                             </Card>
                           ))}
