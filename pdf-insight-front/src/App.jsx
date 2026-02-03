@@ -900,12 +900,12 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
       if (aiTab === 'key_points') {
           return (
             <div className="space-y-4 text-sm animate-in fade-in duration-300">
-              <div>
-                <h4 className="font-bold mb-3 uppercase text-xs tracking-wider opacity-60">Key Points</h4>
+              <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
+                <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Key Points</h4>
                 <ul className="list-disc list-inside space-y-2 opacity-90">
                   {(analysis.key_points || []).length > 0 
-                     ? analysis.key_points.map((p, i) => <li key={i}>{p}</li>)
-                     : <li className="italic opacity-50">No key points detected.</li>
+                      ? analysis.key_points.map((p, i) => <li key={i}>{p}</li>)
+                      : <li className="italic opacity-50">No key points detected.</li>
                   }
                 </ul>
               </div>
@@ -923,8 +923,8 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
 
           return (
             <div className="space-y-4 text-sm animate-in fade-in duration-300">
-              <div>
-                <h4 className="font-bold mb-3 uppercase text-xs tracking-wider opacity-60">Detected Entities</h4>
+              <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
+                <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Detected Entities</h4>
                 {entities.length > 0 ? (
                    <div className="space-y-4">
                      {Object.entries(groupedEntities).map(([type, items]) => (
@@ -1427,14 +1427,14 @@ export default function App() {
             if (res.status === 429 || res.status === 503) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-             
+              
             if (endpoint === 'page2text') {
               const strData = JSON.stringify(data);
               if (strData.includes("Native (AI Limit Hit)")) {
                 throw new Error(texts.rateLimitError);
               }
             }
-             
+              
             return { success: true, data };
           } catch (err) { return { success: false, error: err.message }; }
         };
@@ -1643,7 +1643,7 @@ export default function App() {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                           
+                            
                           return (
                             <div key={pageNum} onClick={() => !isProcessing && togglePageSelection(pageNum)} className={`cursor-pointer transition-transform ${isSelected ? 'scale-105 z-10' : 'hover:scale-105'}`}>
                                <PdfPageThumbnail 
