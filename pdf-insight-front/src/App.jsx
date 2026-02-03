@@ -835,8 +835,8 @@ const PdfPageThumbnail = ({ pdfDocument, pageNumber, scale = 0.5, onZoom, isSele
 };
 
 const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => {
-  const [viewMode, setViewMode] = useState('text'); // text, json, table
-  const [aiTab, setAiTab] = useState('summary'); // summary, key_points, entities
+  const [viewMode, setViewMode] = useState('text');
+  const [aiTab, setAiTab] = useState('summary');
   const [showAiMenu, setShowAiMenu] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -864,7 +864,6 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
         mime = "text/csv";
         ext = "csv";
       } else {
-        // Natural text download
         if (endpoint === 'page2text') content = data.text || data.content;
         else if (endpoint === 'page2ai') {
           const analysis = data.analysis || {};
@@ -999,14 +998,12 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
          <div className="flex items-center gap-1 relative">
              {endpoint === 'page2ai' && viewMode === 'text' && (
                  <>
-                   {/* Desktop AI View Toggles */}
                    <div className="hidden md:flex gap-1 mr-4 border-r pr-4 border-inherit opacity-80">
                       <button onClick={() => setAiTab('summary')} className={`p-1.5 rounded transition-colors ${aiTab === 'summary' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Summary"><AlignLeft size={14} /></button>
                       <button onClick={() => setAiTab('key_points')} className={`p-1.5 rounded transition-colors ${aiTab === 'key_points' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Key Points"><List size={14} /></button>
                       <button onClick={() => setAiTab('entities')} className={`p-1.5 rounded transition-colors ${aiTab === 'entities' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Entities"><Tags size={14} /></button>
                    </div>
                    
-                   {/* Mobile Sandwich Menu for AI Views */}
                    <div className="md:hidden mr-2 relative">
                       <button onClick={() => setShowAiMenu(!showAiMenu)} className={`p-1.5 rounded transition-colors ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300' : 'bg-slate-100 text-slate-600'}`}><MoreHorizontal size={14} /></button>
                       {showAiMenu && (
@@ -1326,7 +1323,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('app');
   const [file, setFile] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
-  const [pdfJsDoc, setPdfJsDoc] = useState(null); // For rendering UI
+  const [pdfJsDoc, setPdfJsDoc] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [selectedPages, setSelectedPages] = useState(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
@@ -1338,7 +1335,7 @@ export default function App() {
   const [theme, setTheme] = useState('dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [isDragging, setIsDragging] = useState(false);
-  const [previewPage, setPreviewPage] = useState(null); // For modal
+  const [previewPage, setPreviewPage] = useState(null);
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1346,10 +1343,8 @@ export default function App() {
   useEffect(() => {
     const loadLibs = async () => {
       try {
-        // Load PDF-Lib for processing
         await loadScript("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js");
         await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");
-        // Load PDF.js for UI rendering
         await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
         
         if (window.pdfjsLib) {
@@ -1367,9 +1362,7 @@ export default function App() {
     setIsUploading(true);
     try {
       const arrayBuffer = await uploadedFile.arrayBuffer();
-      // Load for Processing
       const doc = await window.PDFLib.PDFDocument.load(arrayBuffer);
-      // Load for Rendering
       const jsDoc = await window.pdfjsLib.getDocument(arrayBuffer).promise;
 
       setFile(uploadedFile); 
@@ -1479,7 +1472,6 @@ export default function App() {
   return (
     <div className={`min-h-screen font-sans flex flex-col transition-colors duration-300 ${theme === 'dark' ? 'bg-[#18181b] text-zinc-100' : 'bg-[#f3f4f6] text-slate-800'}`}>
       
-      {/* Zoom Modal */}
       {previewPage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={() => setPreviewPage(null)}>
           <div className="relative max-w-5xl w-full max-h-full overflow-auto flex flex-col items-center" onClick={e => e.stopPropagation()}>
