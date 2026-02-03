@@ -34,7 +34,8 @@ import {
   Menu,
   Eye,
   FileJson,
-  Layout
+  Layout,
+  Info
 } from 'lucide-react';
 
 const API_URL = "https://wmi1oslfjf.execute-api.sa-east-1.amazonaws.com/default";
@@ -89,6 +90,7 @@ const TRANSLATIONS = {
     downloadJson: "Download .json",
     preview: "Preview",
     close: "Close",
+    aiDisclaimer: "AI-generated results. Always validate sensitive information before using it.",
     docs: {
       title: "API Integration Guide",
       intro: "Integrate our intelligence directly into your pipeline. Select an endpoint below to see implementation examples.",
@@ -154,6 +156,7 @@ const TRANSLATIONS = {
     downloadJson: ".json Herunterladen",
     preview: "Vorschau",
     close: "Schließen",
+    aiDisclaimer: "KI-generierte Ergebnisse. Überprüfen Sie sensible Informationen immer vor der Verwendung.",
     docs: {
       title: "API-Integrationsleitfaden",
       intro: "Integrieren Sie unsere Intelligenz in Ihre Pipeline. Wählen Sie unten einen Endpunkt für Beispiele.",
@@ -219,6 +222,7 @@ const TRANSLATIONS = {
     downloadJson: "Descargar .json",
     preview: "Vista Previa",
     close: "Cerrar",
+    aiDisclaimer: "Resultados generados por IA. Valide siempre la información sensible antes de usarla.",
     docs: {
       title: "Guía de Integración API",
       intro: "Integre nuestra inteligencia en su pipeline. Seleccione un punto final a continuación para ver ejemplos.",
@@ -284,6 +288,7 @@ const TRANSLATIONS = {
     downloadJson: "Télécharger .json",
     preview: "Aperçu",
     close: "Fermer",
+    aiDisclaimer: "Résultats générés par l'IA. Validez toujours les informations sensibles avant utilisation.",
     docs: {
       title: "Guide d'Intégration API",
       intro: "Intégrez notre intelligence dans votre pipeline. Sélectionnez un endpoint ci-dessous pour voir des exemples.",
@@ -349,6 +354,7 @@ const TRANSLATIONS = {
     downloadJson: ".json डाउनलोड करें",
     preview: "पूर्वावलोकन",
     close: "बंद करें",
+    aiDisclaimer: "एआई-जनित परिणाम। उपयोग करने से पहले हमेशा संवेदनशील जानकारी को मान्य करें।",
     docs: {
       title: "एपीआई एकीकरण गाइड",
       intro: "हमारी बुद्धिमत्ता को सीधे अपनी पाइपलाइन में एकीकृत करें। उदाहरण देखने के लिए नीचे एक एंडपॉइंट चुनें।",
@@ -414,6 +420,7 @@ const TRANSLATIONS = {
     downloadJson: "Scarica .json",
     preview: "Anteprima",
     close: "Chiudi",
+    aiDisclaimer: "Risultati generati dall'IA. Convalidare sempre le informazioni sensibili prima dell'uso.",
     docs: {
       title: "Guida Integrazione API",
       intro: "Integra la nostra intelligenza nella tua pipeline. Seleziona un endpoint qui sotto per esempi.",
@@ -479,6 +486,7 @@ const TRANSLATIONS = {
     downloadJson: ".jsonをダウンロード",
     preview: "プレビュー",
     close: "閉じる",
+    aiDisclaimer: "AI生成の結果です。機密情報は使用前に必ず確認してください。",
     docs: {
       title: "API統合ガイド",
       intro: "当社のインテリジェンスをパイプラインに統合します。実装例を表示するには、以下のエンドポイントを選択してください。",
@@ -544,6 +552,7 @@ const TRANSLATIONS = {
     downloadJson: "Baixar .json",
     preview: "Visualizar",
     close: "Fechar",
+    aiDisclaimer: "Resultados gerados por IA. Sempre valide informações sensíveis antes de utilizá-las.",
     docs: {
       title: "Guia de Integração API",
       intro: "Integre nossa inteligência diretamente em seu pipeline. Selecione um endpoint abaixo para ver exemplos de implementação.",
@@ -609,6 +618,7 @@ const TRANSLATIONS = {
     downloadJson: "下载 .json",
     preview: "预览",
     close: "关闭",
+    aiDisclaimer: "AI 生成的结果。在使用之前，请务必验证敏感信息。",
     docs: {
       title: "API 集成指南",
       intro: "将我们的智能集成到您的管道中。选择下面的端点以查看实现示例。",
@@ -835,33 +845,33 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
   };
 
   const handleDownload = (format) => {
-     let content = "";
-     let mime = "text/plain";
-     let ext = "txt";
+      let content = "";
+      let mime = "text/plain";
+      let ext = "txt";
 
-     if (format === 'json') {
-       content = JSON.stringify(data, null, 2);
-       mime = "application/json";
-       ext = "json";
-     } else if (format === 'csv' && data?.extraction?.table_data) {
-       content = data.extraction.table_data.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
-       mime = "text/csv";
-       ext = "csv";
-     } else {
-       // Natural text download
-       if (endpoint === 'page2text') content = data.text || data.content;
-       else if (endpoint === 'page2ai') {
+      if (format === 'json') {
+        content = JSON.stringify(data, null, 2);
+        mime = "application/json";
+        ext = "json";
+      } else if (format === 'csv' && data?.extraction?.table_data) {
+        content = data.extraction.table_data.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
+        mime = "text/csv";
+        ext = "csv";
+      } else {
+        // Natural text download
+        if (endpoint === 'page2text') content = data.text || data.content;
+        else if (endpoint === 'page2ai') {
           const analysis = data.analysis || {};
           content = `SUMMARY:\n${analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}`;
-       } else {
-         content = JSON.stringify(data, null, 2);
-       }
-     }
-     
-     const blob = new Blob([content], { type: mime });
-     saveAs(blob, `result_${endpoint}_${Date.now()}.${ext}`);
+        } else {
+          content = JSON.stringify(data, null, 2);
+        }
+      }
+      
+      const blob = new Blob([content], { type: mime });
+      saveAs(blob, `result_${endpoint}_${Date.now()}.${ext}`);
   };
-  
+   
   const latency = data && data.latency_seconds ? data.latency_seconds : (Math.random() * 1).toFixed(4);
 
   const renderNaturalText = () => {
@@ -936,23 +946,23 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
   return (
     <div className={`flex flex-col rounded-xl border overflow-hidden transition-all duration-300 h-full ${bgClass} shadow-sm hover:shadow-md`}>
        <div className={`flex items-center justify-between px-4 py-3 border-b ${theme === 'dark' ? 'border-zinc-700 bg-zinc-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
-          <div className={`font-bold flex items-center gap-2 text-sm ${headerColor}`}>{headerIcon} {title}</div>
-          <div className="flex gap-1">
+         <div className={`font-bold flex items-center gap-2 text-sm ${headerColor}`}>{headerIcon} {title}</div>
+         <div className="flex gap-1">
              <button onClick={() => setViewMode('text')} className={`p-1.5 rounded transition-colors ${viewMode === 'text' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewText}><FileText size={14} /></button>
              <button onClick={() => setViewMode('json')} className={`p-1.5 rounded transition-colors ${viewMode === 'json' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewJson}><FileJson size={14} /></button>
              {endpoint === 'page2table' && <button onClick={() => setViewMode('table')} className={`p-1.5 rounded transition-colors ${viewMode === 'table' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewTable}><Layout size={14} /></button>}
-          </div>
+         </div>
        </div>
        
        <div className="flex-1 p-4 overflow-y-auto max-h-[400px] custom-scrollbar relative">
-          {viewMode === 'text' && renderNaturalText()}
-          {viewMode === 'table' && (endpoint === 'page2table' ? renderTable() : renderNaturalText())}
-          {viewMode === 'json' && <pre className={`text-xs font-mono whitespace-pre-wrap break-all ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}>{JSON.stringify(data, null, 2)}</pre>}
+         {viewMode === 'text' && renderNaturalText()}
+         {viewMode === 'table' && (endpoint === 'page2table' ? renderTable() : renderNaturalText())}
+         {viewMode === 'json' && <pre className={`text-xs font-mono whitespace-pre-wrap break-all ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-600'}`}>{JSON.stringify(data, null, 2)}</pre>}
        </div>
 
        <div className={`px-4 py-2 border-t flex items-center justify-between text-xs ${theme === 'dark' ? 'border-zinc-700 bg-zinc-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
-          <div className="flex items-center gap-1.5 opacity-60"><Clock className="w-3 h-3" /> <span>{texts.latency}: {latency}s</span></div>
-          <div className="flex items-center gap-2">
+         <div className="flex items-center gap-1.5 opacity-60"><Clock className="w-3 h-3" /> <span>{texts.latency}: {latency}s</span></div>
+         <div className="flex items-center gap-2">
              <button onClick={handleCopy} className={`flex items-center gap-1 hover:text-blue-500 transition-colors ${copied ? 'text-emerald-500' : ''}`}>{copied ? <Check size={12} /> : <Copy size={12} />} <span className="hidden sm:inline">{texts.copy}</span></button>
              <div className="h-3 w-px bg-current opacity-20"></div>
              <div className="relative group">
@@ -963,7 +973,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
                    {endpoint === 'page2table' && <button onClick={() => handleDownload('csv')} className="w-full text-left px-3 py-1.5 hover:bg-blue-500/10 hover:text-blue-500">{texts.downloadCsv}</button>}
                 </div>
              </div>
-          </div>
+         </div>
        </div>
     </div>
   );
@@ -1532,9 +1542,16 @@ export default function App() {
                           <p className={`text-xs mt-2 ${theme === 'dark' ? 'text-zinc-500' : 'text-slate-400'}`}>{texts.outputLangDesc}</p>
                         </div>
                       </div>
-                      <Button onClick={processQueue} disabled={isProcessing || selectedPages.size === 0} className="w-full justify-center py-4 text-lg shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all">
-                        {isProcessing ? <><Loader2 className="w-5 h-5 animate-spin" /> {texts.processing} {progress.current}/{progress.total}...</> : <>{texts.process} {selectedPages.size} {texts.page}(s)</>}
-                      </Button>
+                      <div className="space-y-3">
+                        <Button onClick={processQueue} disabled={isProcessing || selectedPages.size === 0} className="w-full justify-center py-4 text-lg shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all">
+                            {isProcessing ? <><Loader2 className="w-5 h-5 animate-spin" /> {texts.processing} {progress.current}/{progress.total}...</> : <>{texts.process} {selectedPages.size} {texts.page}(s)</>}
+                        </Button>
+                        {/* AI DISCLAIMER ADDED HERE */}
+                        <div className={`flex items-start gap-2 text-[10px] leading-tight opacity-70 px-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-500'}`}>
+                            <Info className="w-3 h-3 min-w-[12px] mt-0.5" />
+                            <span>{texts.aiDisclaimer}</span>
+                        </div>
+                      </div>
                       {Object.keys(results).length > 0 && !isProcessing && (
                           <div className={`pt-4 border-t animate-in fade-in slide-in-from-top-2 ${theme === 'dark' ? 'border-zinc-700' : 'border-slate-100'}`}>
                               <div className={`border rounded-xl p-4 text-center ${theme === 'dark' ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-green-50 border-green-200'}`}>
