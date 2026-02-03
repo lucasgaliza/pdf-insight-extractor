@@ -821,7 +821,7 @@ const PdfPageThumbnail = ({ pdfDocument, pageNumber, scale = 0.5, onZoom, isSele
        {!loaded && <div className="absolute inset-0 flex items-center justify-center"><Loader2 className="animate-spin opacity-50" /></div>}
        <div className={`absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 ${isSelected ? 'opacity-30' : ''}`}>
           <button onClick={(e) => { e.stopPropagation(); onZoom(pageNumber); }} className="p-2 bg-white/20 hover:bg-white/40 backdrop-blur-sm rounded-full text-white transition-colors">
-             <Eye size={20} />
+              <Eye size={20} />
           </button>
        </div>
        <div className="absolute top-2 right-2">
@@ -835,8 +835,8 @@ const PdfPageThumbnail = ({ pdfDocument, pageNumber, scale = 0.5, onZoom, isSele
 };
 
 const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => {
-  const [viewMode, setViewMode] = useState('text');
-  const [aiTab, setAiTab] = useState('summary');
+  const [viewMode, setViewMode] = useState('text'); // text, json, table
+  const [aiTab, setAiTab] = useState('summary'); // summary, key_points, entities
   const [showAiMenu, setShowAiMenu] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -864,10 +864,11 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
         mime = "text/csv";
         ext = "csv";
       } else {
+        // Natural text download
         if (endpoint === 'page2text') content = data.text || data.content;
         else if (endpoint === 'page2ai') {
           const analysis = data.analysis || {};
-          content = `SUMMARY:\n${analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}\n\nENTITIES:\n${(analysis.entities || []).map(e => typeof e === 'string' ? `- ${e}` : `- ${JSON.stringify(e)}`).join('\n')}`;
+          content = `SUMMARY:\n${analysis.page_summary || analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}\n\nENTITIES:\n${(analysis.entities || []).map(e => typeof e === 'string' ? `- ${e}` : `- ${JSON.stringify(e)}`).join('\n')}`;
         } else {
           content = JSON.stringify(data, null, 2);
         }
@@ -892,7 +893,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
              <div className="space-y-4 text-sm animate-in fade-in duration-300">
                <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
                  <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Summary</h4>
-                 <p className="opacity-90 leading-relaxed whitespace-pre-wrap">{analysis.summary || "No summary available."}</p>
+                 <p className="opacity-90 leading-relaxed whitespace-pre-wrap">{analysis.page_summary || analysis.summary || "No summary available."}</p>
                </div>
              </div>
           );
@@ -913,21 +914,36 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
           );
       }
       if (aiTab === 'entities') {
+          const entities = analysis.entities || [];
+          const groupedEntities = entities.reduce((acc, entity) => {
+            const type = entity.type || "Other";
+            if (!acc[type]) acc[type] = [];
+            acc[type].push(entity.name || entity.text || JSON.stringify(entity));
+            return acc;
+          }, {});
+
           return (
             <div className="space-y-4 text-sm animate-in fade-in duration-300">
               <div>
                 <h4 className="font-bold mb-3 uppercase text-xs tracking-wider opacity-60">Detected Entities</h4>
-                <div className="flex flex-wrap gap-2">
-                   {(analysis.entities || []).length > 0
-                     ? analysis.entities.map((e, i) => (
-                         <span key={i} className={`px-2 py-1 rounded text-xs border flex items-center gap-1 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-zinc-300' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
-                             <Tags size={10} className="opacity-50" />
-                             {typeof e === 'string' ? e : e.text || JSON.stringify(e)}
+                {entities.length > 0 ? (
+                   <div className="space-y-4">
+                     {Object.entries(groupedEntities).map(([type, items]) => (
+                       <div key={type}>
+                         <span className={`font-bold text-xs uppercase px-2 py-0.5 rounded opacity-80 ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300' : 'bg-slate-200 text-slate-700'}`}>
+                           {type}
                          </span>
-                       ))
-                     : <span className="italic opacity-50 text-sm">No specific entities detected.</span>
-                   }
-                </div>
+                         <ul className="list-disc list-inside mt-2 ml-1 space-y-1 opacity-90">
+                           {items.map((item, i) => (
+                             <li key={i} className="pl-2">{item}</li>
+                           ))}
+                         </ul>
+                       </div>
+                     ))}
+                   </div>
+                ) : (
+                  <span className="italic opacity-50 text-sm">No specific entities detected.</span>
+                )}
               </div>
             </div>
           );
@@ -983,12 +999,14 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
          <div className="flex items-center gap-1 relative">
              {endpoint === 'page2ai' && viewMode === 'text' && (
                  <>
+                   {/* Desktop AI View Toggles */}
                    <div className="hidden md:flex gap-1 mr-4 border-r pr-4 border-inherit opacity-80">
                       <button onClick={() => setAiTab('summary')} className={`p-1.5 rounded transition-colors ${aiTab === 'summary' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Summary"><AlignLeft size={14} /></button>
                       <button onClick={() => setAiTab('key_points')} className={`p-1.5 rounded transition-colors ${aiTab === 'key_points' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Key Points"><List size={14} /></button>
                       <button onClick={() => setAiTab('entities')} className={`p-1.5 rounded transition-colors ${aiTab === 'entities' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Entities"><Tags size={14} /></button>
                    </div>
                    
+                   {/* Mobile Sandwich Menu for AI Views */}
                    <div className="md:hidden mr-2 relative">
                       <button onClick={() => setShowAiMenu(!showAiMenu)} className={`p-1.5 rounded transition-colors ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300' : 'bg-slate-100 text-slate-600'}`}><MoreHorizontal size={14} /></button>
                       {showAiMenu && (
@@ -1308,7 +1326,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('app');
   const [file, setFile] = useState(null);
   const [pdfDoc, setPdfDoc] = useState(null);
-  const [pdfJsDoc, setPdfJsDoc] = useState(null);
+  const [pdfJsDoc, setPdfJsDoc] = useState(null); // For rendering UI
   const [pageCount, setPageCount] = useState(0);
   const [selectedPages, setSelectedPages] = useState(new Set());
   const [isProcessing, setIsProcessing] = useState(false);
@@ -1320,7 +1338,7 @@ export default function App() {
   const [theme, setTheme] = useState('dark');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [isDragging, setIsDragging] = useState(false);
-  const [previewPage, setPreviewPage] = useState(null);
+  const [previewPage, setPreviewPage] = useState(null); // For modal
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
   const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
@@ -1328,8 +1346,10 @@ export default function App() {
   useEffect(() => {
     const loadLibs = async () => {
       try {
+        // Load PDF-Lib for processing
         await loadScript("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js");
         await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");
+        // Load PDF.js for UI rendering
         await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
         
         if (window.pdfjsLib) {
@@ -1347,7 +1367,9 @@ export default function App() {
     setIsUploading(true);
     try {
       const arrayBuffer = await uploadedFile.arrayBuffer();
+      // Load for Processing
       const doc = await window.PDFLib.PDFDocument.load(arrayBuffer);
+      // Load for Rendering
       const jsDoc = await window.pdfjsLib.getDocument(arrayBuffer).promise;
 
       setFile(uploadedFile); 
@@ -1457,6 +1479,7 @@ export default function App() {
   return (
     <div className={`min-h-screen font-sans flex flex-col transition-colors duration-300 ${theme === 'dark' ? 'bg-[#18181b] text-zinc-100' : 'bg-[#f3f4f6] text-slate-800'}`}>
       
+      {/* Zoom Modal */}
       {previewPage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200" onClick={() => setPreviewPage(null)}>
           <div className="relative max-w-5xl w-full max-h-full overflow-auto flex flex-col items-center" onClick={e => e.stopPropagation()}>
