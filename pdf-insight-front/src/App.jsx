@@ -35,7 +35,11 @@ import {
   Eye,
   FileJson,
   Layout,
-  Info
+  Info,
+  AlignLeft,
+  List,
+  Tags,
+  MoreHorizontal
 } from 'lucide-react';
 
 const API_URL = "https://wmi1oslfjf.execute-api.sa-east-1.amazonaws.com/default";
@@ -832,6 +836,8 @@ const PdfPageThumbnail = ({ pdfDocument, pageNumber, scale = 0.5, onZoom, isSele
 
 const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => {
   const [viewMode, setViewMode] = useState('text'); // text, json, table
+  const [aiTab, setAiTab] = useState('summary'); // summary, key_points, entities
+  const [showAiMenu, setShowAiMenu] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -862,7 +868,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
         if (endpoint === 'page2text') content = data.text || data.content;
         else if (endpoint === 'page2ai') {
           const analysis = data.analysis || {};
-          content = `SUMMARY:\n${analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}`;
+          content = `SUMMARY:\n${analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}\n\nENTITIES:\n${(analysis.entities || []).map(e => typeof e === 'string' ? `- ${e}` : `- ${JSON.stringify(e)}`).join('\n')}`;
         } else {
           content = JSON.stringify(data, null, 2);
         }
@@ -871,7 +877,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
       const blob = new Blob([content], { type: mime });
       saveAs(blob, `result_${endpoint}_${Date.now()}.${ext}`);
   };
-   
+    
   const latency = data && data.latency_seconds ? data.latency_seconds : (Math.random() * 1).toFixed(4);
 
   const renderNaturalText = () => {
@@ -881,24 +887,52 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
     }
     if (endpoint === 'page2ai') {
       const analysis = data.analysis || {};
-      return (
-        <div className="space-y-4 text-sm">
-           {analysis.summary && (
-             <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
-               <h4 className="font-bold text-blue-500 mb-1 uppercase text-xs tracking-wider">Summary</h4>
-               <p className="opacity-90 leading-relaxed">{analysis.summary}</p>
+      
+      if (aiTab === 'summary') {
+          return (
+             <div className="space-y-4 text-sm animate-in fade-in duration-300">
+               <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
+                 <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Summary</h4>
+                 <p className="opacity-90 leading-relaxed whitespace-pre-wrap">{analysis.summary || "No summary available."}</p>
+               </div>
              </div>
-           )}
-           {analysis.key_points && (
-             <div>
-               <h4 className="font-bold mb-2 uppercase text-xs tracking-wider opacity-60">Key Points</h4>
-               <ul className="list-disc list-inside space-y-1 opacity-90">
-                 {analysis.key_points.map((p, i) => <li key={i}>{p}</li>)}
-               </ul>
-             </div>
-           )}
-        </div>
-      );
+          );
+      }
+      if (aiTab === 'key_points') {
+          return (
+            <div className="space-y-4 text-sm animate-in fade-in duration-300">
+              <div>
+                <h4 className="font-bold mb-3 uppercase text-xs tracking-wider opacity-60">Key Points</h4>
+                <ul className="list-disc list-inside space-y-2 opacity-90">
+                  {(analysis.key_points || []).length > 0 
+                     ? analysis.key_points.map((p, i) => <li key={i}>{p}</li>)
+                     : <li className="italic opacity-50">No key points detected.</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          );
+      }
+      if (aiTab === 'entities') {
+          return (
+            <div className="space-y-4 text-sm animate-in fade-in duration-300">
+              <div>
+                <h4 className="font-bold mb-3 uppercase text-xs tracking-wider opacity-60">Detected Entities</h4>
+                <div className="flex flex-wrap gap-2">
+                   {(analysis.entities || []).length > 0
+                     ? analysis.entities.map((e, i) => (
+                         <span key={i} className={`px-2 py-1 rounded text-xs border flex items-center gap-1 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-zinc-300' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
+                             <Tags size={10} className="opacity-50" />
+                             {typeof e === 'string' ? e : e.text || JSON.stringify(e)}
+                         </span>
+                       ))
+                     : <span className="italic opacity-50 text-sm">No specific entities detected.</span>
+                   }
+                </div>
+              </div>
+            </div>
+          );
+      }
     }
     if (endpoint === 'page2table') {
        if (data.extraction?.table_data) return renderTable();
@@ -947,7 +981,31 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
     <div className={`flex flex-col rounded-xl border overflow-hidden transition-all duration-300 h-full ${bgClass} shadow-sm hover:shadow-md`}>
        <div className={`flex items-center justify-between px-4 py-3 border-b ${theme === 'dark' ? 'border-zinc-700 bg-zinc-800/30' : 'border-slate-100 bg-slate-50/50'}`}>
          <div className={`font-bold flex items-center gap-2 text-sm ${headerColor}`}>{headerIcon} {title}</div>
-         <div className="flex gap-1">
+         <div className="flex items-center gap-1 relative">
+             {endpoint === 'page2ai' && viewMode === 'text' && (
+                 <>
+                   {/* Desktop AI View Toggles */}
+                   <div className="hidden md:flex gap-1 mr-4 border-r pr-4 border-inherit opacity-80">
+                      <button onClick={() => setAiTab('summary')} className={`p-1.5 rounded transition-colors ${aiTab === 'summary' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Summary"><AlignLeft size={14} /></button>
+                      <button onClick={() => setAiTab('key_points')} className={`p-1.5 rounded transition-colors ${aiTab === 'key_points' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Key Points"><List size={14} /></button>
+                      <button onClick={() => setAiTab('entities')} className={`p-1.5 rounded transition-colors ${aiTab === 'entities' ? (theme === 'dark' ? 'bg-purple-500/20 text-purple-400' : 'bg-purple-100 text-purple-600') : 'text-zinc-400 hover:text-zinc-200'}`} title="Entities"><Tags size={14} /></button>
+                   </div>
+                   
+                   {/* Mobile Sandwich Menu for AI Views */}
+                   <div className="md:hidden mr-2 relative">
+                      <button onClick={() => setShowAiMenu(!showAiMenu)} className={`p-1.5 rounded transition-colors ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300' : 'bg-slate-100 text-slate-600'}`}><MoreHorizontal size={14} /></button>
+                      {showAiMenu && (
+                        <div className={`absolute top-full right-0 mt-2 w-32 rounded-lg border shadow-xl z-20 flex flex-col p-1 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
+                           <button onClick={() => { setAiTab('summary'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'summary' ? 'text-purple-500 font-bold' : ''}`}>Summary</button>
+                           <button onClick={() => { setAiTab('key_points'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'key_points' ? 'text-purple-500 font-bold' : ''}`}>Key Points</button>
+                           <button onClick={() => { setAiTab('entities'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'entities' ? 'text-purple-500 font-bold' : ''}`}>Entities</button>
+                        </div>
+                      )}
+                      {showAiMenu && <div className="fixed inset-0 z-10" onClick={() => setShowAiMenu(false)}></div>}
+                   </div>
+                 </>
+             )}
+
              <button onClick={() => setViewMode('text')} className={`p-1.5 rounded transition-colors ${viewMode === 'text' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewText}><FileText size={14} /></button>
              <button onClick={() => setViewMode('json')} className={`p-1.5 rounded transition-colors ${viewMode === 'json' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewJson}><FileJson size={14} /></button>
              {endpoint === 'page2table' && <button onClick={() => setViewMode('table')} className={`p-1.5 rounded transition-colors ${viewMode === 'table' ? (theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-white shadow text-blue-600') : 'text-zinc-400 hover:text-zinc-200'}`} title={texts.viewTable}><Layout size={14} /></button>}
@@ -1361,14 +1419,14 @@ export default function App() {
             if (res.status === 429 || res.status === 503) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-              
+             
             if (endpoint === 'page2text') {
               const strData = JSON.stringify(data);
               if (strData.includes("Native (AI Limit Hit)")) {
                 throw new Error(texts.rateLimitError);
               }
             }
-              
+             
             return { success: true, data };
           } catch (err) { return { success: false, error: err.message }; }
         };
@@ -1435,7 +1493,7 @@ export default function App() {
                 </div>
               </div>
             </FadeIn>
-              
+             
             <div className="hidden md:flex items-center gap-3">
               <div className={`flex p-1 rounded-lg border ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
                 {['app', 'docs', 'swagger'].map(tab => (
@@ -1546,7 +1604,6 @@ export default function App() {
                         <Button onClick={processQueue} disabled={isProcessing || selectedPages.size === 0} className="w-full justify-center py-4 text-lg shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:-translate-y-0.5 transition-all">
                             {isProcessing ? <><Loader2 className="w-5 h-5 animate-spin" /> {texts.processing} {progress.current}/{progress.total}...</> : <>{texts.process} {selectedPages.size} {texts.page}(s)</>}
                         </Button>
-                        {/* AI DISCLAIMER ADDED HERE */}
                         <div className={`flex items-start gap-2 text-[10px] leading-tight opacity-70 px-1 ${theme === 'dark' ? 'text-zinc-400' : 'text-slate-500'}`}>
                             <Info className="w-3 h-3 min-w-[12px] mt-0.5" />
                             <span>{texts.aiDisclaimer}</span>
@@ -1579,7 +1636,7 @@ export default function App() {
                           const isSelected = selectedPages.has(pageNum);
                           const hasResult = results[pageNum];
                           const isError = hasResult && Object.values(hasResult).some(r => !r.success);
-                            
+                           
                           return (
                             <div key={pageNum} onClick={() => !isProcessing && togglePageSelection(pageNum)} className={`cursor-pointer transition-transform ${isSelected ? 'scale-105 z-10' : 'hover:scale-105'}`}>
                                <PdfPageThumbnail 
