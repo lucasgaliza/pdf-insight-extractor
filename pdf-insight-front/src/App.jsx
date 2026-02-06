@@ -862,7 +862,7 @@ const PdfPageThumbnail = ({ pdfDocument, pageNumber, scale = 0.5, onZoom, isSele
   );
 };
 
-const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => {
+const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loading }) => {
   const [viewMode, setViewMode] = useState('text');
   const [aiTab, setAiTab] = useState('summary');
   const [showAiMenu, setShowAiMenu] = useState(false);
@@ -908,12 +908,15 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
       saveAs(blob, `result_${endpoint}_${Date.now()}.${ext}`);
   };
     
-  const latency = data && data.latency_seconds ? data.latency_seconds : (Math.random() * 1).toFixed(4);
+  // Safeguard against undefined data during rendering
+  const latency = data && data.latency_seconds ? data.latency_seconds : 0;
 
   const renderNaturalText = () => {
     if (!success) return <span className="text-red-500 font-mono break-words">{String(error)}</span>;
+    if (!data) return null;
+
     if (endpoint === 'page2text') {
-      return <div className="whitespace-pre-wrap font-serif text-sm leading-relaxed opacity-90">{data.text || data.content}</div>;
+      return <div className="whitespace-pre-wrap font-serif text-sm leading-relaxed opacity-90">{data.text || data.content || ''}</div>;
     }
     if (endpoint === 'page2insight') {
         return (
@@ -1024,6 +1027,17 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
   if (endpoint === 'page2ai') { headerIcon = <Cpu className="w-4 h-4 text-purple-500" />; headerColor = 'text-purple-500'; }
   else if (endpoint === 'page2table') { headerIcon = <Table className="w-4 h-4 text-emerald-500" />; headerColor = 'text-emerald-500'; }
   else if (endpoint === 'page2insight') { headerIcon = <Lightbulb className="w-4 h-4 text-amber-500" />; headerColor = 'text-amber-500'; }
+
+  if (loading) {
+      return (
+        <div className={`flex flex-col rounded-xl border overflow-hidden h-full ${bgClass} shadow-sm p-4 items-center justify-center min-h-[200px]`}>
+            <div className={`flex flex-col items-center gap-3 animate-pulse opacity-70`}>
+                <Loader2 className={`w-8 h-8 animate-spin ${headerColor}`} />
+                <span className="text-xs font-medium uppercase tracking-wide opacity-50">Generating {title}...</span>
+            </div>
+        </div>
+      );
+  }
 
   if (!success) {
     return (
@@ -1467,15 +1481,25 @@ export default function App() {
         const pdfBytes = await subPdf.save();
         const pdfFile = new File([new Blob([pdfBytes], { type: 'application/pdf' })], `page_${pageNum}.pdf`, { type: 'application/pdf' });
         
-        // Helper to run endpoint
-        const runEndpoint = async (endpoint, textContext = null, tableContext = null) => {
+        // Initialize state placeholders for this page to show Loading Spinners immediately
+        const initialPageResults = {};
+        if (config.runPage2Text) initialPageResults.page2text = { status: 'loading' };
+        if (config.runPage2Table) initialPageResults.page2table = { status: 'loading' };
+        // Dependencies (AI/Insight) will stay 'pending' or implicitly loading until triggered, but we can set them as loading if we want all spinners at once
+        // For strict dependency logic, let's mark them as loading now so the user sees all expected cards
+        if (config.runPage2Ai) initialPageResults.page2ai = { status: 'loading' };
+        if (config.runInsightExtraction) initialPageResults.page2insight = { status: 'loading' };
+        
+        setResults(prev => ({ ...prev, [pageNum]: initialPageResults }));
+
+        // Helper to run endpoint and update state individually
+        const runAndSet = async (endpoint, textContext = null, tableContext = null) => {
           const formData = new FormData();
           formData.append('file', pdfFile); 
           formData.append('page_number', pageNum);
           if (config.targetLanguage && ['page2ai', 'page2table', 'page2insight'].includes(endpoint)) formData.append('target_language', config.targetLanguage);
           if (endpoint !== 'page2text') formData.append('metadata_page_number', pageNum);
           
-          // Optimization: Send already extracted text/table to avoid re-OCR on backend
           if (textContext) formData.append('extracted_text', textContext);
           if (tableContext) formData.append('table_context', JSON.stringify(tableContext));
           if (endpoint === 'page2insight') formData.append('prompt', insightPrompt);
@@ -1490,54 +1514,56 @@ export default function App() {
               const strData = JSON.stringify(data);
               if (strData.includes("Native (AI Limit Hit)")) throw new Error(texts.rateLimitError);
             }
-            return { success: true, data };
-          } catch (err) { return { success: false, error: err.message }; }
+            
+            const resultObj = { success: true, data, status: 'success' };
+            setResults(prev => ({
+                ...prev,
+                [pageNum]: { ...prev[pageNum], [endpoint]: resultObj }
+            }));
+            return resultObj;
+          } catch (err) { 
+              const errorObj = { success: false, error: err.message, status: 'error' };
+              setResults(prev => ({
+                ...prev,
+                [pageNum]: { ...prev[pageNum], [endpoint]: errorObj }
+              }));
+              return errorObj;
+          }
         };
 
-        const pageResultAccumulator = {};
         let extractedText = null;
         let extractedTableData = null;
 
-        // PHASE 1: Text & Table Extraction (Sequential if selected to gather context)
-        const textRequests = [];
-        const endpointsPhase1 = [];
+        // PHASE 1: Text & Table Extraction (Parallel)
+        const p1Promises = [];
+        if (config.runPage2Text) p1Promises.push(runAndSet('page2text'));
+        if (config.runPage2Table) p1Promises.push(runAndSet('page2table'));
 
-        if (config.runPage2Text) { textRequests.push(runEndpoint('page2text')); endpointsPhase1.push('page2text'); }
-        if (config.runPage2Table) { textRequests.push(runEndpoint('page2table')); endpointsPhase1.push('page2table'); }
+        const p1Results = await Promise.all(p1Promises);
 
-        if (textRequests.length > 0) {
-            const responses1 = await Promise.all(textRequests);
-            responses1.forEach((res, index) => {
-                const ep = endpointsPhase1[index];
-                pageResultAccumulator[ep] = res;
-                if (res.success) {
-                    if (ep === 'page2text') extractedText = res.data.text || res.data.content;
-                    if (ep === 'page2table') extractedTableData = res.data.extraction?.table_data;
-                }
-            });
+        // Extract context for Phase 2
+        // Since we fired them in parallel, we need to find which result corresponds to what
+        // But runAndSet returns the result object.
+        // We can just iterate the current state or check the return values.
+        
+        // Let's check results in state or from the promises to be safe
+        // Since logic might be complex with array mapping, let's just grab from what we know we asked for
+        if (config.runPage2Text) {
+             const textRes = p1Results.find(r => r.data && (r.data.text !== undefined || r.data.content !== undefined));
+             if (textRes && textRes.success) extractedText = textRes.data.text || textRes.data.content;
+        }
+        if (config.runPage2Table) {
+             const tableRes = p1Results.find(r => r.data && r.data.extraction);
+             if (tableRes && tableRes.success) extractedTableData = tableRes.data.extraction?.table_data;
         }
 
-        // PHASE 2: AI & Insights (Uses context from Phase 1 if available)
-        const aiRequests = [];
-        const endpointsPhase2 = [];
+        // PHASE 2: AI & Insights (Parallel, dependent on P1)
+        const p2Promises = [];
+        if (config.runPage2Ai) p2Promises.push(runAndSet('page2ai', extractedText, extractedTableData));
+        if (config.runInsightExtraction) p2Promises.push(runAndSet('page2insight', extractedText, extractedTableData));
 
-        if (config.runPage2Ai) { 
-            aiRequests.push(runEndpoint('page2ai', extractedText, extractedTableData)); 
-            endpointsPhase2.push('page2ai'); 
-        }
-        if (config.runInsightExtraction) { 
-            aiRequests.push(runEndpoint('page2insight', extractedText, extractedTableData)); 
-            endpointsPhase2.push('page2insight'); 
-        }
-
-        if (aiRequests.length > 0) {
-            const responses2 = await Promise.all(aiRequests);
-            responses2.forEach((res, index) => {
-                pageResultAccumulator[endpointsPhase2[index]] = res;
-            });
-        }
-
-        setResults(prev => ({ ...prev, [pageNum]: pageResultAccumulator }));
+        await Promise.all(p2Promises);
+        
         setProgress(prev => ({ ...prev, current: prev.current + 1 }));
 
       } catch (err) { console.error(err); }
@@ -1783,7 +1809,7 @@ export default function App() {
                               <div className={`flex items-center gap-3 mb-4 pl-1`}><div className={`font-bold px-3 py-1 rounded text-sm shadow-sm ${theme === 'dark' ? 'bg-zinc-800 text-zinc-100' : 'bg-slate-800 text-white'}`}>{texts.page} {pageNum}</div><div className={`h-px flex-1 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}></div></div>
                               <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                                 {Object.entries(endpoints).map(([key, val]) => ( 
-                                  <ResultCard key={key} title={key.toUpperCase().replace('PAGE2', '')} endpoint={key} data={val.data} success={val.success} error={val.error} texts={texts} theme={theme} /> 
+                                  <ResultCard key={key} title={key.toUpperCase().replace('PAGE2', '')} endpoint={key} data={val.data} success={val.success} error={val.error} loading={val.status === 'loading'} texts={texts} theme={theme} /> 
                                 ))}
                               </div>
                             </Card>
