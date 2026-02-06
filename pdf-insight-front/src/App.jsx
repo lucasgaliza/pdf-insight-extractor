@@ -99,6 +99,13 @@ const TRANSLATIONS = {
     preview: "Preview",
     close: "Close",
     aiDisclaimer: "AI-generated results. Always validate sensitive information before using it.",
+    cardInsight: "Insight Answer",
+    cardSummary: "Summary",
+    cardKeyPoints: "Key Points",
+    cardEntities: "Detected Entities",
+    cardGenerating: "Generating",
+    noEntities: "No specific entities detected.",
+    noTableData: "No table data detected or parsed in natural text mode. Switch to JSON.",
     docs: {
       title: "API Integration Guide",
       intro: "Integrate our intelligence directly into your pipeline. Select an endpoint below to see implementation examples.",
@@ -168,6 +175,13 @@ const TRANSLATIONS = {
     preview: "Vorschau",
     close: "Schließen",
     aiDisclaimer: "KI-generierte Ergebnisse. Überprüfen Sie sensible Informationen immer vor der Verwendung.",
+    cardInsight: "Insight-Antwort",
+    cardSummary: "Zusammenfassung",
+    cardKeyPoints: "Kernpunkte",
+    cardEntities: "Erkannte Entitäten",
+    cardGenerating: "Generiere",
+    noEntities: "Keine spezifischen Entitäten erkannt.",
+    noTableData: "Keine Tabellendaten erkannt. Wechseln Sie zu JSON.",
     docs: {
       title: "API-Integrationsleitfaden",
       intro: "Integrieren Sie unsere Intelligenz in Ihre Pipeline. Wählen Sie unten einen Endpunkt für Beispiele.",
@@ -237,6 +251,13 @@ const TRANSLATIONS = {
     preview: "Vista Previa",
     close: "Cerrar",
     aiDisclaimer: "Resultados generados por IA. Valide siempre la información sensible antes de usarla.",
+    cardInsight: "Respuesta de Insight",
+    cardSummary: "Resumen",
+    cardKeyPoints: "Puntos Clave",
+    cardEntities: "Entidades Detectadas",
+    cardGenerating: "Generando",
+    noEntities: "No se detectaron entidades específicas.",
+    noTableData: "No se detectaron datos de tabla. Cambie a JSON.",
     docs: {
       title: "Guía de Integración API",
       intro: "Integre nuestra inteligencia en su pipeline. Seleccione un punto final a continuación para ver ejemplos.",
@@ -306,6 +327,13 @@ const TRANSLATIONS = {
     preview: "Aperçu",
     close: "Fermer",
     aiDisclaimer: "Résultats générés par l'IA. Validez toujours les informations sensibles avant utilisation.",
+    cardInsight: "Réponse Insight",
+    cardSummary: "Résumé",
+    cardKeyPoints: "Points Clés",
+    cardEntities: "Entités Détectées",
+    cardGenerating: "Génération",
+    noEntities: "Aucune entité spécifique détectée.",
+    noTableData: "Aucune donnée de tableau détectée. Passez à JSON.",
     docs: {
       title: "Guide d'Intégration API",
       intro: "Intégrez notre intelligence dans votre pipeline. Sélectionnez un endpoint ci-dessous pour voir des exemples.",
@@ -375,6 +403,13 @@ const TRANSLATIONS = {
     preview: "पूर्वावलोकन",
     close: "बंद करें",
     aiDisclaimer: "एआई-जनित परिणाम। उपयोग करने से पहले हमेशा संवेदनशील जानकारी को मान्य करें।",
+    cardInsight: "इनसाइट उत्तर",
+    cardSummary: "सारांश",
+    cardKeyPoints: "मुख्य बिंदु",
+    cardEntities: "खोजी गई इकाइयाँ",
+    cardGenerating: "उत्पन्न हो रहा है",
+    noEntities: "कोई विशिष्ट इकाई नहीं मिली।",
+    noTableData: "कोई तालिका डेटा नहीं मिला। JSON पर स्विच करें।",
     docs: {
       title: "एपीआई एकीकरण गाइड",
       intro: "हमारी बुद्धिमत्ता को सीधे अपनी पाइपलाइन में एकीकृत करें। उदाहरण देखने के लिए नीचे एक एंडपॉइंट चुनें।",
@@ -444,6 +479,13 @@ const TRANSLATIONS = {
     preview: "Anteprima",
     close: "Chiudi",
     aiDisclaimer: "Risultati generati dall'IA. Convalidare sempre le informazioni sensibili prima dell'uso.",
+    cardInsight: "Risposta Insight",
+    cardSummary: "Riassunto",
+    cardKeyPoints: "Punti Chiave",
+    cardEntities: "Entità Rilevate",
+    cardGenerating: "Generazione",
+    noEntities: "Nessuna entità specifica rilevata.",
+    noTableData: "Nessun dato di tabella rilevato. Passa a JSON.",
     docs: {
       title: "Guida Integrazione API",
       intro: "Integra la nostra intelligenza nella tua pipeline. Seleziona un endpoint qui sotto per esempi.",
@@ -513,6 +555,13 @@ const TRANSLATIONS = {
     preview: "プレビュー",
     close: "閉じる",
     aiDisclaimer: "AI生成の結果です。機密情報は使用前に必ず確認してください。",
+    cardInsight: "インサイト回答",
+    cardSummary: "要約",
+    cardKeyPoints: "キーポイント",
+    cardEntities: "検出されたエンティティ",
+    cardGenerating: "生成中",
+    noEntities: "特定のエンティティは検出されませんでした。",
+    noTableData: "表データは検出されませんでした。JSONに切り替えてください。",
     docs: {
       title: "API統合ガイド",
       intro: "当社のインテリジェンスをパイプラインに統合します。実装例を表示するには、以下のエンドポイントを選択してください。",
@@ -582,6 +631,13 @@ const TRANSLATIONS = {
     preview: "Visualizar",
     close: "Fechar",
     aiDisclaimer: "Resultados gerados por IA. Sempre valide informações sensíveis antes de utilizá-las.",
+    cardInsight: "Resposta do Insight",
+    cardSummary: "Resumo",
+    cardKeyPoints: "Pontos Chave",
+    cardEntities: "Entidades Detectadas",
+    cardGenerating: "Gerando",
+    noEntities: "Nenhuma entidade específica detectada.",
+    noTableData: "Nenhuma tabela detectada ou processada em modo texto. Alterne para JSON.",
     docs: {
       title: "Guia de Integração API",
       intro: "Integre nossa inteligência diretamente em seu pipeline. Selecione um endpoint abaixo para ver exemplos de implementação.",
@@ -651,6 +707,13 @@ const TRANSLATIONS = {
     preview: "预览",
     close: "关闭",
     aiDisclaimer: "AI 生成的结果。在使用之前，请务必验证敏感信息。",
+    cardInsight: "洞察回答",
+    cardSummary: "摘要",
+    cardKeyPoints: "关键点",
+    cardEntities: "检测到的实体",
+    cardGenerating: "生成中",
+    noEntities: "未检测到特定实体。",
+    noTableData: "未检测到表格数据。请切换到 JSON。",
     docs: {
       title: "API 集成指南",
       intro: "将我们的智能集成到您的管道中。选择下面的端点以查看实现示例。",
@@ -908,7 +971,6 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
       saveAs(blob, `result_${endpoint}_${Date.now()}.${ext}`);
   };
     
-  // Safeguard against undefined data during rendering
   const latency = data && data.latency_seconds ? data.latency_seconds : 0;
 
   const renderNaturalText = () => {
@@ -922,7 +984,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
         return (
             <div className="space-y-4 text-sm animate-in fade-in duration-300">
              <div className="p-3 rounded-lg border bg-amber-500/5 border-amber-500/10">
-               <h4 className="font-bold text-amber-500 mb-2 uppercase text-xs tracking-wider">Insight Answer</h4>
+               <h4 className="font-bold text-amber-500 mb-2 uppercase text-xs tracking-wider">{texts.cardInsight}</h4>
                <p className="opacity-90 leading-relaxed whitespace-pre-wrap">{data.insight || data.answer || JSON.stringify(data, null, 2)}</p>
              </div>
            </div>
@@ -935,7 +997,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
           return (
              <div className="space-y-4 text-sm animate-in fade-in duration-300">
                <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
-                 <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Summary</h4>
+                 <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">{texts.cardSummary}</h4>
                  <p className="opacity-90 leading-relaxed whitespace-pre-wrap">{analysis.page_summary || analysis.summary || "No summary available."}</p>
                </div>
              </div>
@@ -945,7 +1007,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
           return (
             <div className="space-y-4 text-sm animate-in fade-in duration-300">
               <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
-                <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Key Points</h4>
+                <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">{texts.cardKeyPoints}</h4>
                 <ul className="list-disc list-inside space-y-2 opacity-90">
                   {(analysis.key_points || []).length > 0 
                       ? analysis.key_points.map((p, i) => <li key={i}>{p}</li>)
@@ -968,7 +1030,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
           return (
             <div className="space-y-4 text-sm animate-in fade-in duration-300">
               <div className="p-3 rounded-lg border bg-blue-500/5 border-blue-500/10">
-                <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">Detected Entities</h4>
+                <h4 className="font-bold text-blue-500 mb-2 uppercase text-xs tracking-wider">{texts.cardEntities}</h4>
                 {entities.length > 0 ? (
                    <div className="space-y-4">
                      {Object.entries(groupedEntities).map(([type, items]) => (
@@ -985,7 +1047,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
                      ))}
                    </div>
                 ) : (
-                  <span className="italic opacity-50 text-sm">No specific entities detected.</span>
+                  <span className="italic opacity-50 text-sm">{texts.noEntities}</span>
                 )}
               </div>
             </div>
@@ -994,14 +1056,14 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
     }
     if (endpoint === 'page2table') {
        if (data.extraction?.table_data) return renderTable();
-       return <div className="text-sm opacity-60 italic">No table data detected or parsed in natural text mode. Switch to JSON.</div>;
+       return <div className="text-sm opacity-60 italic">{texts.noTableData}</div>;
     }
     return <pre className="text-xs">{JSON.stringify(data, null, 2)}</pre>;
   };
 
   const renderTable = () => {
     const tableData = data?.extraction?.table_data;
-    if (!tableData || !Array.isArray(tableData)) return <div className="p-4 text-center text-sm opacity-50">No table data</div>;
+    if (!tableData || !Array.isArray(tableData) || tableData.length === 0) return <div className="p-4 text-center text-sm opacity-50">{texts.noTableData}</div>;
     return (
       <div className="overflow-x-auto border rounded-lg">
         <table className={`w-full text-sm text-left ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-600'}`}>
@@ -1033,7 +1095,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
         <div className={`flex flex-col rounded-xl border overflow-hidden h-full ${bgClass} shadow-sm p-4 items-center justify-center min-h-[200px]`}>
             <div className={`flex flex-col items-center gap-3 animate-pulse opacity-70`}>
                 <Loader2 className={`w-8 h-8 animate-spin ${headerColor}`} />
-                <span className="text-xs font-medium uppercase tracking-wide opacity-50">Generating {title}...</span>
+                <span className="text-xs font-medium uppercase tracking-wide opacity-50">{texts.cardGenerating} {title}...</span>
             </div>
         </div>
       );
@@ -1067,9 +1129,9 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
                       <button onClick={() => setShowAiMenu(!showAiMenu)} className={`p-1.5 rounded transition-colors ${theme === 'dark' ? 'bg-zinc-800 text-zinc-300' : 'bg-slate-100 text-slate-600'}`}><MoreHorizontal size={14} /></button>
                       {showAiMenu && (
                         <div className={`absolute top-full right-0 mt-2 w-32 rounded-lg border shadow-xl z-20 flex flex-col p-1 ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
-                           <button onClick={() => { setAiTab('summary'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'summary' ? 'text-purple-500 font-bold' : ''}`}>Summary</button>
-                           <button onClick={() => { setAiTab('key_points'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'key_points' ? 'text-purple-500 font-bold' : ''}`}>Key Points</button>
-                           <button onClick={() => { setAiTab('entities'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'entities' ? 'text-purple-500 font-bold' : ''}`}>Entities</button>
+                           <button onClick={() => { setAiTab('summary'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'summary' ? 'text-purple-500 font-bold' : ''}`}>{texts.cardSummary}</button>
+                           <button onClick={() => { setAiTab('key_points'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'key_points' ? 'text-purple-500 font-bold' : ''}`}>{texts.cardKeyPoints}</button>
+                           <button onClick={() => { setAiTab('entities'); setShowAiMenu(false); }} className={`flex items-center gap-2 px-3 py-2 text-xs rounded text-left hover:bg-purple-500/10 hover:text-purple-500 ${aiTab === 'entities' ? 'text-purple-500 font-bold' : ''}`}>{texts.cardEntities}</button>
                         </div>
                       )}
                       {showAiMenu && <div className="fixed inset-0 z-10" onClick={() => setShowAiMenu(false)}></div>}
@@ -1485,8 +1547,6 @@ export default function App() {
         const initialPageResults = {};
         if (config.runPage2Text) initialPageResults.page2text = { status: 'loading' };
         if (config.runPage2Table) initialPageResults.page2table = { status: 'loading' };
-        // Dependencies (AI/Insight) will stay 'pending' or implicitly loading until triggered, but we can set them as loading if we want all spinners at once
-        // For strict dependency logic, let's mark them as loading now so the user sees all expected cards
         if (config.runPage2Ai) initialPageResults.page2ai = { status: 'loading' };
         if (config.runInsightExtraction) initialPageResults.page2insight = { status: 'loading' };
         
@@ -1541,13 +1601,7 @@ export default function App() {
 
         const p1Results = await Promise.all(p1Promises);
 
-        // Extract context for Phase 2
-        // Since we fired them in parallel, we need to find which result corresponds to what
-        // But runAndSet returns the result object.
-        // We can just iterate the current state or check the return values.
-        
-        // Let's check results in state or from the promises to be safe
-        // Since logic might be complex with array mapping, let's just grab from what we know we asked for
+        // Extract context for Phase 2 safely
         if (config.runPage2Text) {
              const textRes = p1Results.find(r => r.data && (r.data.text !== undefined || r.data.content !== undefined));
              if (textRes && textRes.success) extractedText = textRes.data.text || textRes.data.content;
