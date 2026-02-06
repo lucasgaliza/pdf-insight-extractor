@@ -1006,12 +1006,12 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint, loadi
       <div className="overflow-x-auto border rounded-lg">
         <table className={`w-full text-sm text-left ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-600'}`}>
           <thead className={`text-xs uppercase ${theme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-50 text-slate-700'}`}>
-             <tr>{tableData[0]?.map((head, i) => <th key={i} className="px-4 py-2 font-medium border-b border-r last:border-r-0 border-inherit whitespace-nowrap">{head}</th>)}</tr>
+             <tr>{Array.isArray(tableData[0]) ? tableData[0].map((head, i) => <th key={i} className="px-4 py-2 font-medium border-b border-r last:border-r-0 border-inherit whitespace-nowrap">{head}</th>) : null}</tr>
           </thead>
           <tbody>
              {tableData.slice(1).map((row, i) => (
                <tr key={i} className={`border-b last:border-0 border-inherit ${theme === 'dark' ? 'hover:bg-zinc-800/50' : 'hover:bg-slate-50'}`}>
-                 {row.map((cell, j) => <td key={j} className="px-4 py-2 border-r last:border-r-0 border-inherit whitespace-nowrap">{cell}</td>)}
+                 {Array.isArray(row) ? row.map((cell, j) => <td key={j} className="px-4 py-2 border-r last:border-r-0 border-inherit whitespace-nowrap">{cell}</td>) : null}
                </tr>
              ))}
           </tbody>
