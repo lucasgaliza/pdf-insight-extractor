@@ -39,7 +39,8 @@ import {
   AlignLeft,
   List,
   Tags,
-  MoreHorizontal
+  MoreHorizontal,
+  Lightbulb
 } from 'lucide-react';
 
 const API_URL = "https://wmi1oslfjf.execute-api.sa-east-1.amazonaws.com/default";
@@ -59,6 +60,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "Summaries & Insights",
     tabularExtraction: "Tabular Extraction",
     tabularExtractionDesc: "Tables to JSON",
+    insightExtraction: "Insight Extraction",
+    insightExtractionDesc: "Ask specific questions",
+    insightPromptPlaceholder: "e.g., Total value expenses, Invoice date...",
     outputLang: "AI Output Language",
     outputLangDesc: "Optional. Default: Original",
     process: "Process",
@@ -125,6 +129,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "Zusammenfassungen & Insights",
     tabularExtraction: "Tabellenextraktion",
     tabularExtractionDesc: "Tabellen zu JSON",
+    insightExtraction: "Insight-Extraktion",
+    insightExtractionDesc: "Spezifische Fragen stellen",
+    insightPromptPlaceholder: "z.B. Gesamtkosten, Rechnungsdatum...",
     outputLang: "KI-Ausgabesprache",
     outputLangDesc: "Optional. Standard: Original",
     process: "Verarbeiten",
@@ -191,6 +198,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "Resúmenes e Insights",
     tabularExtraction: "Extracción Tabular",
     tabularExtractionDesc: "Tablas a JSON",
+    insightExtraction: "Extracción de Insights",
+    insightExtractionDesc: "Hacer preguntas específicas",
+    insightPromptPlaceholder: "Ej: Valor total gastos, Fecha factura...",
     outputLang: "Idioma de Salida IA",
     outputLangDesc: "Opcional. Por defecto: Original",
     process: "Procesar",
@@ -257,6 +267,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "Résumés et Insights",
     tabularExtraction: "Extraction Tableaux",
     tabularExtractionDesc: "Tableaux vers JSON",
+    insightExtraction: "Extraction d'Insights",
+    insightExtractionDesc: "Poser des questions précises",
+    insightPromptPlaceholder: "Ex : Valeur totale dépenses, Date facture...",
     outputLang: "Langue de Sortie IA",
     outputLangDesc: "Optionnel. Défaut: Original",
     process: "Traiter",
@@ -323,6 +336,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "सारांश और अंतर्दृष्टि",
     tabularExtraction: "तालिकीय निष्कर्षण",
     tabularExtractionDesc: "JSON के लिए तालिकाएँ",
+    insightExtraction: "अंतर्दृष्टि निष्कर्षण",
+    insightExtractionDesc: "विशिष्ट प्रश्न पूछें",
+    insightPromptPlaceholder: "उदा: कुल व्यय मूल्य, चालान तिथि...",
     outputLang: "एआई आउटपुट भाषा",
     outputLangDesc: "वैकल्पिक। डिफ़ॉल्ट: मूल",
     process: "प्रक्रिया",
@@ -389,6 +405,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "Riassunti e Insight",
     tabularExtraction: "Estrazione Tabelle",
     tabularExtractionDesc: "Tabelle in JSON",
+    insightExtraction: "Estrazione Insight",
+    insightExtractionDesc: "Fai domande specifiche",
+    insightPromptPlaceholder: "Es: Valore totale spese, Data fattura...",
     outputLang: "Lingua Output AI",
     outputLangDesc: "Opzionale. Default: Originale",
     process: "Elabora",
@@ -455,6 +474,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "要約とインサイト",
     tabularExtraction: "表抽出",
     tabularExtractionDesc: "表をJSONに変換",
+    insightExtraction: "インサイト抽出",
+    insightExtractionDesc: "特定の質問をする",
+    insightPromptPlaceholder: "例：経費の合計金額、請求日...",
     outputLang: "AI出力言語",
     outputLangDesc: "オプション。デフォルト：原文",
     process: "処理",
@@ -521,6 +543,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "Resumos e Insights",
     tabularExtraction: "Extração Tabular",
     tabularExtractionDesc: "Tabelas para JSON",
+    insightExtraction: "Extração de Insights",
+    insightExtractionDesc: "Faça perguntas específicas",
+    insightPromptPlaceholder: "Ex: Valor total despesas, Data fatura...",
     outputLang: "Idioma de Saída da IA",
     outputLangDesc: "Opcional. Padrão: Original",
     process: "Processar",
@@ -587,6 +612,9 @@ const TRANSLATIONS = {
     cognitiveAnalysisDesc: "摘要与洞察",
     tabularExtraction: "表格提取",
     tabularExtractionDesc: "表格转 JSON",
+    insightExtraction: "洞察提取",
+    insightExtractionDesc: "提出具体问题",
+    insightPromptPlaceholder: "例如：费用总额，发票日期...",
     outputLang: "AI 输出语言",
     outputLangDesc: "可选。默认：原始",
     process: "处理",
@@ -842,6 +870,7 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
 
   useEffect(() => {
     if (endpoint === 'page2table') setViewMode('table');
+    if (endpoint === 'page2insight') setViewMode('text');
   }, [endpoint]);
 
   const handleCopy = () => {
@@ -868,6 +897,8 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
         else if (endpoint === 'page2ai') {
           const analysis = data.analysis || {};
           content = `SUMMARY:\n${analysis.page_summary || analysis.summary || ''}\n\nKEY POINTS:\n${(analysis.key_points || []).map(p => `- ${p}`).join('\n')}\n\nENTITIES:\n${(analysis.entities || []).map(e => typeof e === 'string' ? `- ${e}` : `- ${JSON.stringify(e)}`).join('\n')}`;
+        } else if (endpoint === 'page2insight') {
+           content = data.insight || data.answer || JSON.stringify(data, null, 2);
         } else {
           content = JSON.stringify(data, null, 2);
         }
@@ -883,6 +914,16 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
     if (!success) return <span className="text-red-500 font-mono break-words">{String(error)}</span>;
     if (endpoint === 'page2text') {
       return <div className="whitespace-pre-wrap font-serif text-sm leading-relaxed opacity-90">{data.text || data.content}</div>;
+    }
+    if (endpoint === 'page2insight') {
+        return (
+            <div className="space-y-4 text-sm animate-in fade-in duration-300">
+             <div className="p-3 rounded-lg border bg-amber-500/5 border-amber-500/10">
+               <h4 className="font-bold text-amber-500 mb-2 uppercase text-xs tracking-wider">Insight Answer</h4>
+               <p className="opacity-90 leading-relaxed whitespace-pre-wrap">{data.insight || data.answer || JSON.stringify(data, null, 2)}</p>
+             </div>
+           </div>
+        );
     }
     if (endpoint === 'page2ai') {
       const analysis = data.analysis || {};
@@ -977,8 +1018,12 @@ const ResultCard = ({ title, data, success, error, texts, theme, endpoint }) => 
   };
 
   const bgClass = theme === 'dark' ? 'bg-[#27272a] border-zinc-700' : 'bg-white border-slate-200';
-  const headerIcon = endpoint === 'page2text' ? <FileText className="w-4 h-4 text-blue-500" /> : endpoint === 'page2ai' ? <Cpu className="w-4 h-4 text-purple-500" /> : <Table className="w-4 h-4 text-emerald-500" />;
-  const headerColor = endpoint === 'page2text' ? 'text-blue-500' : endpoint === 'page2ai' ? 'text-purple-500' : 'text-emerald-500';
+  let headerIcon = <FileText className="w-4 h-4 text-blue-500" />;
+  let headerColor = 'text-blue-500';
+
+  if (endpoint === 'page2ai') { headerIcon = <Cpu className="w-4 h-4 text-purple-500" />; headerColor = 'text-purple-500'; }
+  else if (endpoint === 'page2table') { headerIcon = <Table className="w-4 h-4 text-emerald-500" />; headerColor = 'text-emerald-500'; }
+  else if (endpoint === 'page2insight') { headerIcon = <Lightbulb className="w-4 h-4 text-amber-500" />; headerColor = 'text-amber-500'; }
 
   if (!success) {
     return (
@@ -1176,6 +1221,7 @@ const EndpointDiagram = ({ theme }) => {
         <div className="flex flex-col gap-4 z-10 w-full md:w-auto">
            <div className={`${boxClass} border-blue-500/50`}><div className="text-blue-500 mb-1">/v1/page2text</div><span className="text-[10px] opacity-70">Raw Text + OCR</span></div>
            <div className={`${boxClass} border-purple-500/50`}><div className="text-purple-500 mb-1">/v1/page2ai</div><span className="text-[10px] opacity-70">Cognitive Analysis</span></div>
+           <div className={`${boxClass} border-amber-500/50`}><div className="text-amber-500 mb-1">/v1/page2insight</div><span className="text-[10px] opacity-70">Insight Extraction</span></div>
            <div className={`${boxClass} border-emerald-500/50`}><div className="text-emerald-500 mb-1">/v1/page2table</div><span className="text-[10px] opacity-70">Table Extraction</span></div>
         </div>
         <div className="hidden md:flex flex-1 items-center px-2">
@@ -1195,7 +1241,8 @@ const ApiReference = ({ theme, texts }) => {
     { method: "GET", path: "/", desc: "Health Check", response: "{ status: 'online', service: '...' }" },
     { method: "POST", path: "/v1/page2text", desc: texts.extractText, params: ["file (PDF)", "page_number (int)"], response: "{ text: '...', extraction_method: '...' }" },
     { method: "POST", path: "/v1/text2ai", desc: "Text Analysis", params: ["text (string)"], response: "{ summary: '...', entities: [...] }" },
-    { method: "POST", path: "/v1/page2ai", desc: texts.cognitiveAnalysis, params: ["file (PDF)", "metadata_page_number (int)"], response: "{ analysis: { summary: '...', key_points: [...] } }" },
+    { method: "POST", path: "/v1/page2ai", desc: texts.cognitiveAnalysis, params: ["file (PDF)", "metadata_page_number (int)", "extracted_text (opt)"], response: "{ analysis: { summary: '...', key_points: [...] } }" },
+    { method: "POST", path: "/v1/page2insight", desc: texts.insightExtraction, params: ["file (PDF)", "prompt (string)", "extracted_text (opt)"], response: "{ insight: '...' }" },
     { method: "POST", path: "/v1/page2table", desc: texts.tabularExtraction, params: ["file (PDF)", "metadata_page_number (int)"], response: "{ extraction: { table_data: [...] } }" }
   ];
   const methodColor = (m) => m === 'GET' ? 'text-blue-500 bg-blue-500/10 border-blue-500/20' : 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
@@ -1336,9 +1383,10 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [isDragging, setIsDragging] = useState(false);
   const [previewPage, setPreviewPage] = useState(null);
+  const [insightPrompt, setInsightPrompt] = useState('');
 
   const texts = TRANSLATIONS[uiLang] || TRANSLATIONS['en'];
-  const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, targetLanguage: '' });
+  const [config, setConfig] = useState({ runPage2Text: true, runPage2Ai: true, runPage2Table: false, runInsightExtraction: false, targetLanguage: '' });
 
   useEffect(() => {
     const loadLibs = async () => {
@@ -1405,6 +1453,8 @@ export default function App() {
 
   const processQueue = async () => {
     if (selectedPages.size === 0) return alert("Select at least one page.");
+    if (config.runInsightExtraction && !insightPrompt.trim()) return alert("Please enter an insight prompt.");
+    
     setIsProcessing(true); setResults({});
     const pagesToProcess = Array.from(selectedPages).sort((a, b) => a - b);
     setProgress({ current: 0, total: pagesToProcess.length });
@@ -1416,39 +1466,80 @@ export default function App() {
         subPdf.addPage(copiedPage);
         const pdfBytes = await subPdf.save();
         const pdfFile = new File([new Blob([pdfBytes], { type: 'application/pdf' })], `page_${pageNum}.pdf`, { type: 'application/pdf' });
-
-        const runEndpoint = async (endpoint) => {
+        
+        // Helper to run endpoint
+        const runEndpoint = async (endpoint, textContext = null, tableContext = null) => {
           const formData = new FormData();
-          formData.append('file', pdfFile); formData.append('page_number', pageNum);
-          if (config.targetLanguage && ['page2ai', 'page2table'].includes(endpoint)) formData.append('target_language', config.targetLanguage);
+          formData.append('file', pdfFile); 
+          formData.append('page_number', pageNum);
+          if (config.targetLanguage && ['page2ai', 'page2table', 'page2insight'].includes(endpoint)) formData.append('target_language', config.targetLanguage);
           if (endpoint !== 'page2text') formData.append('metadata_page_number', pageNum);
+          
+          // Optimization: Send already extracted text/table to avoid re-OCR on backend
+          if (textContext) formData.append('extracted_text', textContext);
+          if (tableContext) formData.append('table_context', JSON.stringify(tableContext));
+          if (endpoint === 'page2insight') formData.append('prompt', insightPrompt);
+
           try {
             const res = await fetch(`${API_URL.replace(/\/+$/, '')}/v1/${endpoint}`, { method: 'POST', body: formData });
             if (res.status === 429 || res.status === 503) throw new Error(texts.rateLimitError);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-              
+            
             if (endpoint === 'page2text') {
               const strData = JSON.stringify(data);
-              if (strData.includes("Native (AI Limit Hit)")) {
-                throw new Error(texts.rateLimitError);
-              }
+              if (strData.includes("Native (AI Limit Hit)")) throw new Error(texts.rateLimitError);
             }
-              
             return { success: true, data };
           } catch (err) { return { success: false, error: err.message }; }
         };
 
-        const requests = []; const endpoints = [];
-        if (config.runPage2Text) { requests.push(runEndpoint('page2text')); endpoints.push('page2text'); }
-        if (config.runPage2Ai) { requests.push(runEndpoint('page2ai')); endpoints.push('page2ai'); }
-        if (config.runPage2Table) { requests.push(runEndpoint('page2table')); endpoints.push('page2table'); }
+        const pageResultAccumulator = {};
+        let extractedText = null;
+        let extractedTableData = null;
 
-        const responses = await Promise.all(requests);
-        const pageResults = {};
-        responses.forEach((res, index) => { pageResults[endpoints[index]] = res; });
-        setResults(prev => ({ ...prev, [pageNum]: pageResults }));
+        // PHASE 1: Text & Table Extraction (Sequential if selected to gather context)
+        const textRequests = [];
+        const endpointsPhase1 = [];
+
+        if (config.runPage2Text) { textRequests.push(runEndpoint('page2text')); endpointsPhase1.push('page2text'); }
+        if (config.runPage2Table) { textRequests.push(runEndpoint('page2table')); endpointsPhase1.push('page2table'); }
+
+        if (textRequests.length > 0) {
+            const responses1 = await Promise.all(textRequests);
+            responses1.forEach((res, index) => {
+                const ep = endpointsPhase1[index];
+                pageResultAccumulator[ep] = res;
+                if (res.success) {
+                    if (ep === 'page2text') extractedText = res.data.text || res.data.content;
+                    if (ep === 'page2table') extractedTableData = res.data.extraction?.table_data;
+                }
+            });
+        }
+
+        // PHASE 2: AI & Insights (Uses context from Phase 1 if available)
+        const aiRequests = [];
+        const endpointsPhase2 = [];
+
+        if (config.runPage2Ai) { 
+            aiRequests.push(runEndpoint('page2ai', extractedText, extractedTableData)); 
+            endpointsPhase2.push('page2ai'); 
+        }
+        if (config.runInsightExtraction) { 
+            aiRequests.push(runEndpoint('page2insight', extractedText, extractedTableData)); 
+            endpointsPhase2.push('page2insight'); 
+        }
+
+        if (aiRequests.length > 0) {
+            const responses2 = await Promise.all(aiRequests);
+            responses2.forEach((res, index) => {
+                pageResultAccumulator[endpointsPhase2[index]] = res;
+            });
+        }
+
+        setResults(prev => ({ ...prev, [pageNum]: pageResultAccumulator }));
         setProgress(prev => ({ ...prev, current: prev.current + 1 }));
+
       } catch (err) { console.error(err); }
     }
     setIsProcessing(false);
@@ -1500,7 +1591,7 @@ export default function App() {
                 </div>
               </div>
             </FadeIn>
-             
+              
             <div className="hidden md:flex items-center gap-3">
               <div className={`flex p-1 rounded-lg border ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700' : 'bg-white border-slate-200'}`}>
                 {['app', 'docs', 'swagger'].map(tab => (
@@ -1595,12 +1686,32 @@ export default function App() {
                     <Card className="p-5 space-y-6 sticky top-24 overflow-visible" theme={theme}>
                       <div className={`pb-4 border-b ${theme === 'dark' ? 'border-zinc-700' : 'border-slate-100'}`}><h3 className={`font-bold ${theme === 'dark' ? 'text-zinc-100' : 'text-slate-900'}`}>{texts.configTitle}</h3></div>
                       <div className="space-y-4">
-                        {[{ id: 'runPage2Text', icon: FileText, title: texts.extractText, desc: texts.extractTextDesc, color: 'blue' }, { id: 'runPage2Ai', icon: Cpu, title: texts.cognitiveAnalysis, desc: texts.cognitiveAnalysisDesc, color: 'purple' }, { id: 'runPage2Table', icon: Table, title: texts.tabularExtraction, desc: texts.tabularExtractionDesc, color: 'emerald' }].map((opt) => (
+                        {[
+                          { id: 'runPage2Text', icon: FileText, title: texts.extractText, desc: texts.extractTextDesc, color: 'blue' }, 
+                          { id: 'runPage2Ai', icon: Cpu, title: texts.cognitiveAnalysis, desc: texts.cognitiveAnalysisDesc, color: 'purple' }, 
+                          { id: 'runPage2Table', icon: Table, title: texts.tabularExtraction, desc: texts.tabularExtractionDesc, color: 'emerald' },
+                          { id: 'runInsightExtraction', icon: Lightbulb, title: texts.insightExtraction, desc: texts.insightExtractionDesc, color: 'amber' }
+                        ].map((opt) => (
                           <label key={opt.id} className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${config[opt.id] ? `bg-${opt.color}-500/10 border-${opt.color}-500/50` : (theme === 'dark' ? 'border-zinc-700 hover:bg-zinc-800' : 'border-slate-200 hover:bg-slate-50')}`}>
                             <input type="checkbox" checked={config[opt.id]} onChange={e => setConfig({...config, [opt.id]: e.target.checked})} className={`mt-1 w-4 h-4 text-${opt.color}-600 rounded focus:ring-${opt.color}-500`} />
                             <div><div className={`font-bold text-sm flex items-center gap-2 ${theme === 'dark' ? 'text-zinc-200' : 'text-slate-800'}`}><opt.icon className="w-4 h-4" /> {opt.title}</div><div className={`text-xs mt-0.5 ${theme === 'dark' ? 'text-zinc-500' : 'text-slate-500'}`}>{opt.desc}</div></div>
                           </label>
                         ))}
+                        
+                        {config.runInsightExtraction && (
+                            <div className="mt-3 animate-in fade-in slide-in-from-top-1 duration-300">
+                                <textarea 
+                                    rows={2}
+                                    maxLength={100}
+                                    placeholder={texts.insightPromptPlaceholder}
+                                    value={insightPrompt}
+                                    onChange={(e) => setInsightPrompt(e.target.value)}
+                                    className={`w-full p-3 rounded-lg text-sm border focus:ring-2 focus:ring-amber-500/50 outline-none transition-all ${theme === 'dark' ? 'bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500' : 'bg-slate-50 border-slate-300 text-slate-800 placeholder:text-slate-400'}`}
+                                />
+                                <div className={`text-right text-[10px] mt-1 ${theme === 'dark' ? 'text-zinc-500' : 'text-slate-400'}`}>{insightPrompt.length}/100</div>
+                            </div>
+                        )}
+
                         <div className={`pt-4 border-t ${theme === 'dark' ? 'border-zinc-700' : 'border-slate-100'}`}>
                           <label className={`block text-sm font-bold mb-2 flex items-center gap-2 ${theme === 'dark' ? 'text-zinc-300' : 'text-slate-700'}`}><Globe className="w-4 h-4 opacity-50" /> {texts.outputLang}</label>
                           <LanguageSelector value={config.targetLanguage} onChange={(code) => setConfig({...config, targetLanguage: code})} placeholder="Select Language" theme={theme} />
